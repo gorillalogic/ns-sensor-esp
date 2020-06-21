@@ -18,7 +18,7 @@
 #include "sampling.h"
 #include "led_ring.h"
 #include "animations.h"
-#include "transforms.h"
+#include "utils.h"
 
 LedRing ledRing(
   config::sampling::noise::rate::AVERAGE_COUNT,
@@ -31,7 +31,7 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-Transforms transforms = Transforms();
+Utils utils = Utils();
 
 Sampling sampling(
   config::sampling::noise::rate::AVERAGE_COUNT,
@@ -72,8 +72,7 @@ void loop() {
     sampling.clear();
   }
 
-  // display in led ring
-  int leds = transforms.discreteSteps(
+  int leds = utils.calculateLeds(
     noiseValue,
     config::sampling::noise::raw::THRESHOLD_MAX,
     config::sampling::noise::raw::THRESHOLD_MIN,

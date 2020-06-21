@@ -1,6 +1,6 @@
-#include "transforms.h"
+#include "utils.h"
 
-int Transforms::discreteSteps(int noiseMeasurement, int minMeasurement, int maxMeasurement, int maxSteps){
+int Utils::calculateLeds(int noiseMeasurement, int minMeasurement, int maxMeasurement, int maxSteps){
   int steps;
   if (noiseMeasurement > maxMeasurement){
     steps = maxSteps;
@@ -12,4 +12,4 @@ int Transforms::discreteSteps(int noiseMeasurement, int minMeasurement, int maxM
   return steps;
 }
 
-Transforms::Transforms(){}
+Utils::Utils(){}
