@@ -1,5 +1,5 @@
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef STRINGS_LOGGER_H
+#define STRINGS_LOGGER_H
 
 namespace logger {
   namespace wifi {
@@ -21,4 +21,4 @@ namespace logger {
   }
 }
 
-#endif /* LOGGER_H */
+#endif /* STRINGS_LOGGER_H */

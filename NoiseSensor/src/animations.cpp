@@ -22,13 +22,11 @@ void Animations::noiseMagnitude(int leds){
   ledRing.getStrip().show();
 }
 
-Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh){
-  high = (int)(ledRing->getTotalLeds() * ratioHigh);
-  low = (int)(ledRing->getTotalLeds() * ratioLow);
+Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh) : ledRing(ledRing){
+  high = (int)(ledRing.getTotalLeds() * ratioHigh);
+  low = (int)(ledRing.getTotalLeds() * ratioLow);
 
-  green = ledRing->getStrip().Color(0, 255, 0);
-  yellow = ledRing->getStrip().Color(255, 255, 0);
-  red = ledRing->getStrip().Color(255, 0, 0);
-
-  this->ledRing = ledRing;
+  green = ledRing.getStrip().Color(0, 255, 0);
+  yellow = ledRing.getStrip().Color(255, 255, 0);
+  red = ledRing.getStrip().Color(255, 0, 0);
 }

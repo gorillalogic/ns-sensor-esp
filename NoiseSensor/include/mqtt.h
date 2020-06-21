@@ -5,14 +5,14 @@
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
-#include "../../types.h"
-#include "../../config.h"
+#include "types.h"
+#include "config/config.h"
 
 class Mqtt{
   private:
-    WiFiClient wifiClient;
-    Adafruit_MQTT_Client mqttClient;
-    Adafruit_MQTT_Publish feed;
+    WiFiClient *wifiClient;
+    Adafruit_MQTT_Client *mqttClient;
+    Adafruit_MQTT_Publish *feed;
     int mqttFailures;
 
   public:

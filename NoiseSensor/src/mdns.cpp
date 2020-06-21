@@ -1,6 +1,6 @@
 #include "mdns.h"
-#include "../../config.h"
-#include "../../strings.h"
+#include "config/config.h"
+#include "config/logger.h"
 #include <ESP8266mDNS.h>
 
 void Mdns::assign(){
@@ -11,7 +11,7 @@ void Mdns::assign(){
 }
 
 bool Mdns::clear(){
-
+  return false;
 }
 
 void Mdns::update(){

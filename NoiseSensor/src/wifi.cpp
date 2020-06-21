@@ -1,8 +1,8 @@
 #include "wifi.h"
-#include "../../strings.h"
+#include "config/logger.h"
 
 bool Wifi::isConnected(){
-
+  return false;
 }
 
 std::string Wifi::currentIpAddress(){
@@ -11,7 +11,6 @@ std::string Wifi::currentIpAddress(){
 
 void Wifi::connect(){
   Serial.println(logger::wifi::connecting);
-  int i = 0;
   while (wifiMulti.run() != WL_CONNECTED) { // Wait for the Wi-Fi to connect: scan for Wi-Fi networks, and connect to the strongest of the networks above
     delay(1000);
     Serial.print('.');

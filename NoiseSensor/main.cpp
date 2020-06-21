@@ -5,28 +5,17 @@
  * 2. Creates a pattern to NeoPixel Ring according to the magnitude of the noise signal.
  * 3. Sends data via MQTT every second.
  */
-#include <Adafruit_NeoPixel.h>
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
-#include <ESP8266WiFi.h>
-#include <ESP8266WiFiMulti.h>
-#include <ESP8266mDNS.h>
-#include <vector>
-
-#ifdef __AVR__
-  #include <avr/power.h>
-#endif
-
 #include "types.h"
 #include "config.h"
 #include "strings.h"
-#include "src/wifi/wifi.h"
-#include "src/mdns/mdns.h"
-#include "src/mqtt/mqtt.h"
-#include "src/sampling/sampling.h"
-#include "src/leds/led_ring.h"
-#include "src/leds/animations.h"
-#include "src/utils/transforms.h"
+#include "wifi.h"
+#include "mdns.h"
+#include "mqtt.h"
+#include "sampling.h"
+#include "led_ring.h"
+#include "animations.h"
+#include "transforms.h"
+#include <vector>
 
 LedRing ledRing(
   config::sampling::noise::rate::AVERAGE_COUNT,
@@ -49,6 +38,7 @@ Sampling sampling(
 Wifi wifi = Wifi();
 
 Mdns mDNS = Mdns();
+
 
 Mqtt mqtt(
   config::mqtt::DEFAULT_CONFIG,
