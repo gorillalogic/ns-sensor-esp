@@ -1,15 +1,15 @@
-#include "wifi.h"
+#include "wifi_controller.h"
 #include "logger.h"
 
-bool Wifi::isConnected(){
+bool WifiController::isConnected(){
   return false;
 }
 
-std::string Wifi::currentIpAddress(){
+std::string WifiController::currentIpAddress(){
   return ipAddress;
 }
 
-void Wifi::connect(){
+void WifiController::connect(){
   Log.notice(logger::wifi::connecting);
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
@@ -19,12 +19,12 @@ void Wifi::connect(){
   Log.notice(logger::wifi::ip, WiFi.localIP().toString().c_str());
 }
 
-void Wifi::disconnect(){
+void WifiController::disconnect(){
 
 }
 
-Wifi::Wifi(std::vector<WifiCredentials> credentials){
-  wifiMulti = ESP8266WiFiMulti();
+WifiController::WifiController(std::vector<WifiCredentials> credentials){
+  wifiMulti = WiFiMultiController();
 
   std::vector<WifiCredentials>::iterator it = credentials.begin();
   for (std::vector<WifiCredentials>::iterator it = credentials.begin() ; it != credentials.end(); ++it){
@@ -34,4 +34,4 @@ Wifi::Wifi(std::vector<WifiCredentials> credentials){
   }
 }
 
-Wifi::~Wifi(){}
+WifiController::~WifiController(){}

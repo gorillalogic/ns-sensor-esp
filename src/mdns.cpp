@@ -1,7 +1,17 @@
 #include "mdns.h"
 #include "config.h"
 #include "logger.h"
+
+#if defined(ESP8266)
 #include <ESP8266mDNS.h>
+#endif
+
+#if defined(ESP32)
+#include <WiFi.h>
+#include <mdns.h>
+#include <ESPmDNS.h>
+#include <WiFiClient.h>
+#endif
 
 void Mdns::assign(){
   if (!MDNS.begin(config::mdns::HOSTNAME.name)) {
@@ -15,7 +25,9 @@ bool Mdns::clear(){
 }
 
 void Mdns::update(){
+#if defined(ESP8266)
   MDNS.update();
+#endif
 }
 
 void Mdns::start(){

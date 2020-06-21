@@ -6,7 +6,7 @@ void Animations::clear(){
   ledRing.clear();
 }
 
-void Animations::noiseMagnitude(uint16 leds){
+void Animations::noiseMagnitude(uint16_t leds){
   ledRing.clear();
   Log.verbose("[noiseMagnitude] high:%d low:%d leds:%d" CR, high, low, leds);
   if (leds > high){

@@ -9,16 +9,14 @@
 #include <FS.h>
 #include <Arduino.h>
 #include <ArduinoLog.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <ESP8266_Utils_OTA.h>
+#include <EasyOTA.h>
 #include <vector>
 #include "types.h"
 #include "config.h"
 #include "logger.h"
-#include "wifi.h"
+#include "wifi_controller.h"
 #include "mdns.h"
 #include "mqtt.h"
 #include "sampling.h"
@@ -40,7 +38,7 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-Wifi wifi = Wifi(
+WifiController wifi = WifiController(
   config::wifi::NETWORKS
 );
 
