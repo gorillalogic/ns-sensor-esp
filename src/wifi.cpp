@@ -15,8 +15,8 @@ void Wifi::connect(){
     delay(1000);
   }
   Log.notice(logger::wifi::connected);
-  Log.notice("SSID: %s", WiFi.SSID().c_str());
-  Log.notice("IP address: %s", WiFi.localIP().toString().c_str());
+  Log.notice("SSID: %s" CR, WiFi.SSID().c_str());
+  Log.notice("IP address: %s" CR, WiFi.localIP().toString().c_str());
 }
 
 void Wifi::disconnect(){
@@ -29,6 +29,7 @@ Wifi::Wifi(std::vector<WifiCredentials> credentials){
   std::vector<WifiCredentials>::iterator it = credentials.begin();
   for (std::vector<WifiCredentials>::iterator it = credentials.begin() ; it != credentials.end(); ++it){
     WifiCredentials cred = *it;
+    Log.notice("Adding credentials %s %s" CR, cred.ssid, cred.pass);
     wifiMulti.addAP(cred.ssid, cred.pass);
   }
 }

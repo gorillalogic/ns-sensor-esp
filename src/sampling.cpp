@@ -1,4 +1,5 @@
 #include "sampling.h"
+#include "logger.h"
 
 void Sampling::add(int value){
   sum += value;
@@ -8,6 +9,7 @@ void Sampling::add(int value){
     max = value;
   }
   iteration += 1;
+  Log.verbose("Sampling: Adding value: %d, min: %d, max: %d, sum: %d" CR, value, min, max, sum);
 }
 
 bool Sampling::enoughSamples(){
@@ -21,6 +23,8 @@ SensorPayload Sampling::read(){
     sum / limit,
     deviceId,
   };
+  Log.verbose("Sampling: Read deviceId: %s, min: %d, max: %d, avg: %d / %d = %d" CR,
+    deviceId, min, max, sum, limit, sum / limit);
   return payload;
 }
 

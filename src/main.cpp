@@ -6,10 +6,11 @@
  * 3. Sends data via MQTT every second.
  */
 #include <Arduino.h>
+#include <ArduinoLog.h>
 #include <vector>
 #include "types.h"
 #include "config.h"
-#include "strings.h"
+#include "logger.h"
 #include "wifi.h"
 #include "mdns.h"
 #include "mqtt.h"
@@ -51,11 +52,16 @@ Mqtt mqtt(
 
 void setup() {
   Serial.begin( config::serial::BAUD_RATE );
+  Log.begin(LOG_LEVEL, &Serial, true);
 
+#ifdef ENABLE_LED_RING
   ledRing.setup();
+#endif
   wifi.connect();
   mDNS.assign();
+#ifdef ENABLE_MQTT_PUBLISH
   mqtt.connect();
+#endif
 }
 
 void loop() {
@@ -63,22 +69,24 @@ void loop() {
 
   int noiseValue = analogRead( config::pins::noise::SIGNAL_READ );
 
+#ifdef ENABLE_LED_RING
   int steps = transforms.discreteSteps(
     noiseValue,
     config::sampling::noise::raw::THRESHOLD_MAX,
     config::sampling::noise::raw::THRESHOLD_MIN,
     config::leds::LEDS_TOTAL
   );
-
-  sampling.add( noiseValue );
-
   animations.noiseMagnitude( steps );
+#endif
 
+#ifdef ENABLE_MQTT_PUBLISH
+  sampling.add( noiseValue );
   if ( sampling.enoughSamples() ){
     SensorPayload payload = sampling.read();
     mqtt.publish(payload);
     sampling.clear();
   }
+#endif
 
   delay( config::sampling::DELAY_MS );
 }
