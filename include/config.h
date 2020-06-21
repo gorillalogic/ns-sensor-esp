@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Arduino.h>
 #include <vector>
 #include "types.h"
 
@@ -35,7 +36,7 @@ namespace config {
 
   namespace pins {
     namespace noise {
-      const int SIGNAL_READ = 0; //A0;
+      const int SIGNAL_READ = A0;
     }
     namespace leds {
       const int VIN = 14;

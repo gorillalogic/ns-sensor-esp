@@ -30,3 +30,7 @@ Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh) : le
   yellow = ledRing.getStrip().Color(255, 255, 0);
   red = ledRing.getStrip().Color(255, 0, 0);
 }
+
+Animations::~Animations(){
+
+}
