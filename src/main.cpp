@@ -59,13 +59,6 @@ AnalogSensor noise_primary(
   config::pins::noise_primary::CONTROL_PIN
 );
 
-AnalogSensor noise_secondary(
-  config::sampling::noise_secondary::NAME,
-  config::pins::ANALOG_READ,
-  &mqtt,
-  config::pins::noise_secondary::CONTROL_PIN
-);
-
 AnalogMultiplexor multiplexor;
 
 void setup() {
@@ -78,7 +71,6 @@ void setup() {
   ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
   mqtt.connect();
   multiplexor.addAnalogSensor(&noise_primary);
-  multiplexor.addAnalogSensor(&noise_secondary);
 }
 
 void loop() {
