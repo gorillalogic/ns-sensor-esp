@@ -73,9 +73,9 @@ void setup() {
   Log.begin(LOG_LEVEL, &Serial, true);
   ledRing.setup();
   wifi.connect();
+  mDNS.assign();
   initOTA();
   ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
-  mDNS.assign();
   mqtt.connect();
   multiplexor.addAnalogSensor(&noise_primary);
   multiplexor.addAnalogSensor(&noise_secondary);
