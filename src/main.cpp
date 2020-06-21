@@ -6,8 +6,14 @@
  * 3. Sends data via MQTT every second.
  */
 
+#include <FS.h>
 #include <Arduino.h>
 #include <ArduinoLog.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266mDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+#include <ESP8266_Utils_OTA.h>
 #include <vector>
 #include "types.h"
 #include "config.h"
@@ -67,6 +73,8 @@ void setup() {
   Log.begin(LOG_LEVEL, &Serial, true);
   ledRing.setup();
   wifi.connect();
+  initOTA();
+  ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
   mDNS.assign();
   mqtt.connect();
   multiplexor.addAnalogSensor(&noise_primary);
@@ -74,6 +82,7 @@ void setup() {
 }
 
 void loop() {
+  ArduinoOTA.handle();
   mDNS.update();
 
   AnalogSensor* sensor = multiplexor.rotate();
