@@ -2,7 +2,5 @@
 
 class Utils{
   public:
-    explicit Utils();
-
-    int calculateLeds(int noiseMeasurement, int minMeasurement, int maxMeasurement, int steps);
+    static int calculateLeds(int noiseMeasurement, int minMeasurement, int maxMeasurement, int steps);
 };

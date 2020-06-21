@@ -31,8 +31,6 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-Utils utils = Utils();
-
 Sampling sampling(
   config::sampling::noise::rate::AVERAGE_COUNT,
   config::mdns::HOSTNAME.name
@@ -72,7 +70,7 @@ void loop() {
     sampling.clear();
   }
 
-  int leds = utils.calculateLeds(
+  int leds = Utils::calculateLeds(
     noiseValue,
     config::sampling::noise::raw::THRESHOLD_MAX,
     config::sampling::noise::raw::THRESHOLD_MIN,

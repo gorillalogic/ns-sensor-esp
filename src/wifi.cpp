@@ -29,8 +29,8 @@ Wifi::Wifi(std::vector<WifiCredentials> credentials){
   std::vector<WifiCredentials>::iterator it = credentials.begin();
   for (std::vector<WifiCredentials>::iterator it = credentials.begin() ; it != credentials.end(); ++it){
     WifiCredentials cred = *it;
-    Log.notice(logger::wifi::addingCredentials, cred.ssid, cred.pass);
     wifiMulti.addAP(cred.ssid, cred.pass);
+    Log.notice(logger::wifi::addingCredentials, cred.ssid, cred.pass);
   }
 }
 

@@ -11,5 +11,3 @@ int Utils::calculateLeds(int noiseMeasurement, int minMeasurement, int maxMeasur
   }
   return steps;
 }
-
-Utils::Utils(){}
