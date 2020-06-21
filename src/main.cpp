@@ -49,7 +49,8 @@ Mdns mDNS = Mdns();
 Mqtt mqtt(
   config::mqtt::DEFAULT_CONFIG,
   config::mqtt::DEFAULT_CREDENTIALS,
-  config::mqtt::channels::NOISE
+  config::mqtt::channels::NOISE,
+  WiFi.macAddress()
 );
 
 AnalogSensor noise_primary(

@@ -6,7 +6,7 @@
 
 void Mqtt::publish(SensorPayload payload){
   char event[100];
-  sprintf(event, "%s %d %d %d", payload.signalName, payload.avg, payload.max, payload.min);
+  sprintf(event, "%s %d %d %d %s", payload.signalName, payload.avg, payload.max, payload.min, macAddress.c_str());
   if (!feed->publish(event)){
     Log.error(logger::mqtt::failedSending);
     if (mqttFailures >= LIMIT_FAILURES){
@@ -18,7 +18,7 @@ void Mqtt::publish(SensorPayload payload){
     }
     mqttFailures += 1;
   }else{
-    Log.notice(logger::mqtt::payloadSent, payload.signalName, payload.avg, payload.max, payload.min);
+    Log.notice(logger::mqtt::payloadSent, payload.signalName, payload.avg, payload.max, payload.min, macAddress.c_str());
   }
 }
 
@@ -53,7 +53,8 @@ void Mqtt::disconnect(){
 
 }
 
-Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel){
+Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress) :
+    macAddress(macAddress){
   wifiClient = new WiFiClient();
   mqttClient = new Adafruit_MQTT_Client(
     wifiClient,

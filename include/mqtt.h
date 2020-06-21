@@ -13,9 +13,10 @@ class Mqtt{
     Adafruit_MQTT_Client *mqttClient;
     Adafruit_MQTT_Publish *feed;
     uint8_t mqttFailures;
+    String macAddress;
 
   public:
-    explicit Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel);
+    explicit Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress);
     ~Mqtt();
 
     void publish(SensorPayload payload);
