@@ -1,2 +1,3 @@
-# ns-sensor-esp
-Noise Sensor project using arduino framework for esp8266 &amp; esp32
+# Noise Sensor
+
+Contains all the software changes related to the ESP8266 Feather HUZZAH.
