@@ -16,5 +16,5 @@ class LedRing{
     void clear();
     int getTotalLeds();
     int getPinVIN();
-    Adafruit_NeoPixel getStrip();
+    Adafruit_NeoPixel* getStrip();
 };

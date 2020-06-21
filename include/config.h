@@ -59,12 +59,12 @@ namespace config {
 
     namespace animations {
       const double THRESHOLD_LOW = 0.75;
-      const double THRESHOLD_HIGH = 1;
+      const double THRESHOLD_HIGH = 1.0;
     }
   }
 
   namespace sampling {
-    const int DELAY_MS = 2;
+    const int DELAY_MS = 50;
 
     namespace noise {
       namespace raw {

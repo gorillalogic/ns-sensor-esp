@@ -17,8 +17,8 @@ int LedRing::getPinVIN(){
   return pinVIN;
 }
 
-Adafruit_NeoPixel LedRing::getStrip(){
-  return *strip;
+Adafruit_NeoPixel* LedRing::getStrip(){
+  return strip;
 }
 
 LedRing::LedRing(int totalLeds, int pinVIN){

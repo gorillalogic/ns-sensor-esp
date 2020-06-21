@@ -49,6 +49,7 @@ Mqtt mqtt(
 );
 
 void setup() {
+  Serial.begin(115200);
   Serial.begin(config::serial::BAUD_RATE);
   Log.begin(LOG_LEVEL, &Serial, true);
   ledRing.setup();
@@ -58,6 +59,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.print("Testing...\n");
   mDNS.update();
 
   int noiseValue = analogRead(config::pins::noise::SIGNAL_READ);
