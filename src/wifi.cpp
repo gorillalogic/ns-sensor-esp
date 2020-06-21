@@ -10,28 +10,27 @@ std::string Wifi::currentIpAddress(){
 }
 
 void Wifi::connect(){
-  Serial.println(logger::wifi::connecting);
-  while (wifiMulti.run() != WL_CONNECTED) { // Wait for the Wi-Fi to connect: scan for Wi-Fi networks, and connect to the strongest of the networks above
+  Log.notice(logger::wifi::connecting);
+  while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
-    Serial.print('.');
   }
-  Serial.println('\n');
-  Serial.print(logger::wifi::connected);
-  Serial.println(WiFi.SSID());              // Tell us what network we're connected to
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());           // Send the IP address of the ESP8266 to the computer
-
+  Log.notice(logger::wifi::connected);
+  Log.notice("SSID: %s", WiFi.SSID().c_str());
+  Log.notice("IP address: %s", WiFi.localIP().toString().c_str());
 }
 
 void Wifi::disconnect(){
 
 }
 
-Wifi::Wifi(){
+Wifi::Wifi(std::vector<WifiCredentials> credentials){
   wifiMulti = ESP8266WiFiMulti();
-  wifiMulti.addAP("IoT", "42noisealert42");
-  wifiMulti.addAP("iPhone-Emma", "@noise42@");
-  wifiMulti.addAP("GorillaGuest", "gorillalogicguest");
+
+  std::vector<WifiCredentials>::iterator it = credentials.begin();
+  for (std::vector<WifiCredentials>::iterator it = credentials.begin() ; it != credentials.end(); ++it){
+    WifiCredentials cred = *it;
+    wifiMulti.addAP(cred.ssid, cred.pass);
+  }
 }
 
 Wifi::~Wifi(){

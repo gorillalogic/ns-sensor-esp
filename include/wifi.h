@@ -11,7 +11,7 @@ class Wifi {
     std::string ipAddress;
 
   public:
-    explicit Wifi();
+    explicit Wifi(std::vector<WifiCredentials> credentials);
     ~Wifi();
 
     bool isConnected();

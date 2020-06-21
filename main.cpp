@@ -7,7 +7,7 @@
  */
 #include "types.h"
 #include "config.h"
-#include "strings.h"
+#include "logger.h"
 #include "wifi.h"
 #include "mdns.h"
 #include "mqtt.h"
@@ -48,6 +48,7 @@ Mqtt mqtt(
 
 void setup() {
   Serial.begin( config::serial::BAUD_RATE );
+  Log.begin(LOG_LEVEL_VERBOSE, &Serial);
 
   ledRing.setup();
   wifi.connect();

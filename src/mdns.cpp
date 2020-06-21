@@ -4,10 +4,10 @@
 #include <ESP8266mDNS.h>
 
 void Mdns::assign(){
-  if (!MDNS.begin(config::mdns::HOSTNAME.name)) {             // Start the mDNS responder for esp8266.local
-    Serial.println(logger::mdns::setupError);
+  if (!MDNS.begin(config::mdns::HOSTNAME.name)) {
+    Log.error(logger::mdns::setupError);
   }
-  Serial.println(logger::mdns::responderStarted);
+  Log.notice(logger::mdns::responderStarted);
 }
 
 bool Mdns::clear(){
@@ -20,7 +20,7 @@ void Mdns::update(){
 
 void Mdns::start(){
   if ( MDNS.begin(config::mdns::HOSTNAME.name) ){
-    Serial.println(logger::mdns::started);
+    Log.notice(logger::mdns::started);
   }
   MDNS.addService("http", "tcp", 80);
 }

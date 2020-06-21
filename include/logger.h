@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ArduinoLog.h>
+
 namespace logger {
   namespace wifi {
     const char * const connecting = "Wifi: Connecting ...";

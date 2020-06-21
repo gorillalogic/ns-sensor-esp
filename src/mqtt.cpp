@@ -11,7 +11,7 @@ void Mqtt::publish(SensorPayload payload){
       mqttFailures = 0;
       return;
     }
-    Serial.println(logger::mqtt::failedSending);
+    Log.error(logger::mqtt::failedSending);
     mqttFailures += 1;
   }
 }
@@ -25,12 +25,12 @@ if (mqttClient->connected()) {
     return;
   }
   int8_t ret;
-  Serial.print(logger::mqtt::connecting);
+  Log.notice(logger::mqtt::connecting);
   uint8_t retries = 3;
   while ((ret = mqttClient->connect()) != 0) { // connect will return 0 for connected
 
-    Serial.println(mqttClient->connectErrorString(ret));
-    Serial.println(logger::mqtt::retrying);
+    Log.error(mqttClient->connectErrorString(ret));
+    Log.notice(logger::mqtt::retrying);
 
     mqttClient->disconnect();
     delay(5000);  // wait 5 seconds
@@ -40,7 +40,7 @@ if (mqttClient->connected()) {
       while (1);
     }
   }
-  Serial.println(logger::mqtt::connected);
+  Log.notice(logger::mqtt::connected);
 }
 
 void Mqtt::disconnect(){

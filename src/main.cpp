@@ -36,7 +36,9 @@ Sampling sampling(
   config::mdns::HOSTNAME.name
 );
 
-Wifi wifi = Wifi();
+Wifi wifi = Wifi(
+  config::wifi::NETWORKS
+);
 
 Mdns mDNS = Mdns();
 
