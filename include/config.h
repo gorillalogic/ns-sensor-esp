@@ -4,10 +4,6 @@
 #include <vector>
 #include "types.h"
 
-/* Feature Flags */
-// #define ENABLE_LED_RING
-#define ENABLE_MQTT_PUBLISH
-
 /* Debug Levels*/
 // * 0 - LOG_LEVEL_SILENT     no output
 // * 1 - LOG_LEVEL_FATAL      fatal errors
@@ -45,7 +41,7 @@ namespace config {
   }
 
   namespace serial {
-    const int BAUD_RATE = 9600;
+    const int BAUD_RATE = 115200;
     const int BRIGHTNESS = 5;
   }
 
@@ -68,7 +64,7 @@ namespace config {
   }
 
   namespace sampling {
-    const int DELAY_MS = 5;
+    const int DELAY_MS = 2;
 
     namespace noise {
       namespace raw {

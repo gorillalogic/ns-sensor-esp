@@ -4,7 +4,7 @@
 
 class LedRing{
   private:
-    Adafruit_NeoPixel strip;
+    Adafruit_NeoPixel* strip;
     int totalLeds;
     int pinVIN;
 
@@ -16,5 +16,5 @@ class LedRing{
     void clear();
     int getTotalLeds();
     int getPinVIN();
-    Adafruit_NeoPixel &getStrip();
+    Adafruit_NeoPixel getStrip();
 };
