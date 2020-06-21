@@ -1,7 +1,7 @@
 #include "sampling.h"
 #include "logger.h"
 
-void Sampling::add(int value){
+void Sampling::add(uint16_t value){
   sum += value;
   if (value < min){
     min = value;
@@ -17,24 +17,25 @@ bool Sampling::enoughSamples(){
 }
 
 SensorPayload Sampling::read(){
+  uint16_t avg = sum / limit;
   SensorPayload payload = {
     min,
     max,
-    sum / limit,
+    avg,
     deviceId,
   };
-  Log.verbose(logger::sampling::readSampling, deviceId, min, max, sum, limit, sum / limit);
+  Log.verbose(logger::sampling::readSampling, deviceId, min, max, sum, limit, avg);
   return payload;
 }
 
 void Sampling::clear(){
-  min = 10000;
-  max = -1;
+  min = 0xFFFF;
+  max = 0;
   sum = 0;
   iteration = 0;
 }
 
-Sampling::Sampling(const int limit, const char* deviceId){
+Sampling::Sampling(const uint16_t limit, const char* deviceId){
   clear();
   this->limit = limit;
   this->deviceId = deviceId;

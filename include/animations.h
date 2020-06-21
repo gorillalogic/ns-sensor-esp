@@ -8,13 +8,13 @@ class Animations {
     uint32_t red;
     uint32_t yellow;
     LedRing &ledRing;
-    int high;
-    int low;
+    uint16_t high;
+    uint16_t low;
 
   public:
     explicit Animations(LedRing &ledRing, double ratioLow, double ratioHigh);
     ~Animations();
 
     void clear();
-    void noiseMagnitude(int steps);
+    void noiseMagnitude(uint16_t steps);
 };

@@ -21,7 +21,7 @@
 #include "utils.h"
 
 LedRing ledRing(
-  config::sampling::noise::rate::AVERAGE_COUNT,
+  config::leds::LEDS_TOTAL,
   config::pins::leds::VIN
 );
 
@@ -59,26 +59,25 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("Testing...\n");
   mDNS.update();
 
   int noiseValue = analogRead(config::pins::noise::SIGNAL_READ);
-
-  // publish to mqtt
   sampling.add( noiseValue );
   if ( sampling.enoughSamples() ){
+    int leds = Utils::calculateLeds(
+      noiseValue,
+      config::sampling::noise::raw::THRESHOLD_MIN,
+      config::sampling::noise::raw::THRESHOLD_MAX,
+      config::leds::LEDS_TOTAL
+    );
+    animations.noiseMagnitude(leds);
+
     SensorPayload payload = sampling.read();
     mqtt.publish(payload);
     sampling.clear();
-  }
 
-  int leds = Utils::calculateLeds(
-    noiseValue,
-    config::sampling::noise::raw::THRESHOLD_MAX,
-    config::sampling::noise::raw::THRESHOLD_MIN,
-    config::leds::LEDS_TOTAL
-  );
-  animations.noiseMagnitude(leds);
+    Log.notice(logger::leds::displayLedsCount, noiseValue, leds);
+  }
 
   delay(config::sampling::DELAY_MS);
 }

@@ -9,11 +9,11 @@ void LedRing::clear(){
 
 }
 
-int LedRing::getTotalLeds(){
+uint16_t LedRing::getTotalLeds(){
   return totalLeds;
 }
 
-int LedRing::getPinVIN(){
+uint16_t LedRing::getPinVIN(){
   return pinVIN;
 }
 
@@ -21,7 +21,7 @@ Adafruit_NeoPixel* LedRing::getStrip(){
   return strip;
 }
 
-LedRing::LedRing(int totalLeds, int pinVIN){
+LedRing::LedRing(uint16_t totalLeds, uint16_t pinVIN){
   this->totalLeds = totalLeds;
   this->pinVIN = pinVIN;
   strip = new Adafruit_NeoPixel(totalLeds, pinVIN, NEO_GRB + NEO_KHZ800);

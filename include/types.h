@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Arduino.h>
+
 typedef struct WifiCredentials {
   const char *ssid;
   const char *pass;
@@ -17,12 +19,12 @@ typedef struct MqttCredentials {
 
 typedef struct MqttConfig {
   Hostname hostname;
-  int port;
+  uint16_t port;
 } MqttConfig;
 
 typedef struct SensorPayload {
-  const int min;
-  const int max;
-  const int avg;
+  const uint16_t min;
+  const uint16_t max;
+  const uint16_t avg;
   const char* deviceId;
 } SensorPayload;

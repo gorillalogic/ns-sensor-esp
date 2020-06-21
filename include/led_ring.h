@@ -5,16 +5,16 @@
 class LedRing{
   private:
     Adafruit_NeoPixel* strip;
-    int totalLeds;
-    int pinVIN;
+    uint16_t totalLeds;
+    uint16_t pinVIN;
 
   public:
-    explicit LedRing(int totalLeds, int pinVIN);
+    explicit LedRing(uint16_t totalLeds, uint16_t pinVIN);
     ~LedRing();
 
     void setup();
     void clear();
-    int getTotalLeds();
-    int getPinVIN();
+    uint16_t getTotalLeds();
+    uint16_t getPinVIN();
     Adafruit_NeoPixel* getStrip();
 };

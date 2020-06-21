@@ -42,4 +42,9 @@ namespace logger {
     const char * const addSampling = "Sampling: Adding value: %d, min: %d, max: %d, sum: %d" CR;
     const char * const readSampling = "Sampling: Read deviceId: %s, min: %d, max: %d, avg: %d / %d = %d" CR;
   }
+
+  namespace leds {
+    //verbose
+    const char * const displayLedsCount = "Led Animation: Magnitude value: %d,\tcount: %d" CR;
+  }
 }

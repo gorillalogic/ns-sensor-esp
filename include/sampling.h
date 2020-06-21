@@ -5,17 +5,17 @@
 class Sampling{
   private:
     const char *deviceId;
-    int limit;
-    int max;
-    int min;
-    int sum;
-    int iteration;
+    uint16_t limit;
+    uint16_t max;
+    uint16_t min;
+    uint16_t iteration;
+    uint32_t sum;
 
   public:
-    explicit Sampling(const int limit, const char *deviceId);
+    explicit Sampling(const uint16_t limit, const char *deviceId);
     ~Sampling();
 
-    void add(int value);
+    void add(uint16_t value);
     bool enoughSamples();
     SensorPayload read();
     void clear();

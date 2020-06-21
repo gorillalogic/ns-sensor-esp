@@ -1,7 +1,7 @@
 #include "utils.h"
 
-int Utils::calculateLeds(int noiseMeasurement, int minMeasurement, int maxMeasurement, int maxSteps){
-  int steps;
+uint16_t Utils::calculateLeds(uint16_t noiseMeasurement, uint16_t minMeasurement, uint16_t maxMeasurement, uint16_t maxSteps){
+  uint16_t steps;
   if (noiseMeasurement > maxMeasurement){
     steps = maxSteps;
   }else if (noiseMeasurement < minMeasurement){

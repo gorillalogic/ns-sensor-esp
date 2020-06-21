@@ -1,21 +1,24 @@
 #include "animations.h"
 #include "config.h"
+#include "logger.h"
 
 void Animations::clear(){
   ledRing.clear();
 }
 
-void Animations::noiseMagnitude(int leds){
-  clear();
-
+void Animations::noiseMagnitude(uint16 leds){
+  Log.verbose("[noiseMagnitude] high:%d low:%d leds:%d" CR, high, low, leds);
   if (leds > high){
+    Log.verbose("[noiseMagnitude] first" CR);
     ledRing.getStrip()->fill(green, 0, low);
     ledRing.getStrip()->fill(yellow, low, high - low);
     ledRing.getStrip()->fill(red, high, leds - high);
   }else if (leds > low){
+    Log.verbose("[noiseMagnitude] second" CR);
     ledRing.getStrip()->fill(green, 0, low);
     ledRing.getStrip()->fill(yellow, low, leds - low);
   }else if (leds > 0){
+    Log.verbose("[noiseMagnitude] third" CR);
     ledRing.getStrip()->fill(green, 0, leds);
   }
 

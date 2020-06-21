@@ -18,7 +18,7 @@ void Mqtt::publish(SensorPayload payload){
     }
     mqttFailures += 1;
   }else{
-    Log.verbose(logger::mqtt::payloadSent, payload.deviceId, payload.avg, payload.max, payload.min);
+    Log.notice(logger::mqtt::payloadSent, payload.deviceId, payload.avg, payload.max, payload.min);
   }
 }
 

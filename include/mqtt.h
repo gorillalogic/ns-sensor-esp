@@ -12,7 +12,7 @@ class Mqtt{
     WiFiClient *wifiClient;
     Adafruit_MQTT_Client *mqttClient;
     Adafruit_MQTT_Publish *feed;
-    int mqttFailures;
+    uint8_t mqttFailures;
 
   public:
     explicit Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel);
