@@ -34,6 +34,4 @@ Wifi::Wifi(std::vector<WifiCredentials> credentials){
   }
 }
 
-Wifi::~Wifi(){
-
-}
+Wifi::~Wifi(){}

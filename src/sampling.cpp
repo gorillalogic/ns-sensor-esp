@@ -41,6 +41,4 @@ Sampling::Sampling(const int limit, const char* deviceId){
   this->deviceId = deviceId;
 }
 
-Sampling::~Sampling(){
-
-}
+Sampling::~Sampling(){}

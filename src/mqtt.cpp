@@ -1,18 +1,24 @@
 #include "mqtt.h"
 #include "logger.h"
 
+#define CONNECTED 0  // connect will return 0 for connected
+#define LIMIT_FAILURES 10
+
 void Mqtt::publish(SensorPayload payload){
   char event[100];
   sprintf(event, "%s %d %d %d", payload.deviceId, payload.avg, payload.max, payload.min);
   if (!feed->publish(event)){
-    if (mqttFailures >= 10){
+    Log.error(logger::mqtt::failedSending);
+    if (mqttFailures >= LIMIT_FAILURES){
+      Log.error("Mqtt: Failed %d times. Restarting connecting", mqttFailures);
+      mqttFailures = 0;
       mqttClient->disconnect();
       connect();
-      mqttFailures = 0;
       return;
     }
-    Log.error(logger::mqtt::failedSending);
     mqttFailures += 1;
+  }else{
+    Log.verbose("Mqtt: Sent %s %d %d %d", payload.deviceId, payload.avg, payload.max, payload.min);
   }
 }
 
@@ -21,14 +27,14 @@ bool Mqtt::isConnected(){
 }
 
 void Mqtt::connect(){
-if (mqttClient->connected()) {
+  if (mqttClient->connected()) {
     return;
   }
-  int8_t ret;
-  Log.notice(logger::mqtt::connecting);
-  uint8_t retries = 3;
-  while ((ret = mqttClient->connect()) != 0) { // connect will return 0 for connected
 
+  int8_t ret;
+  uint8_t retries = 3;
+  Log.notice(logger::mqtt::connecting);
+  while ((ret = mqttClient->connect()) != CONNECTED) {
     Log.error(mqttClient->connectErrorString(ret));
     Log.notice(logger::mqtt::retrying);
 
@@ -61,5 +67,7 @@ Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel){
 }
 
 Mqtt::~Mqtt(){
-
+  free(wifiClient);
+  free(mqttClient);
+  free(feed);
 }

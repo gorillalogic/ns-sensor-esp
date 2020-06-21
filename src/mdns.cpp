@@ -25,10 +25,5 @@ void Mdns::start(){
   MDNS.addService("http", "tcp", 80);
 }
 
-Mdns::Mdns(){
-
-}
-
-Mdns::~Mdns(){
-
-}
+Mdns::Mdns(){}
+Mdns::~Mdns(){}

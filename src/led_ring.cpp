@@ -27,6 +27,4 @@ LedRing::LedRing(int totalLeds, int pinVIN){
   strip = Adafruit_NeoPixel(totalLeds, pinVIN, NEO_GRB + NEO_KHZ800);
 }
 
-LedRing::~LedRing(){
-
-}
+LedRing::~LedRing(){}
