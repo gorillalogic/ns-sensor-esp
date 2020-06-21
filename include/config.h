@@ -46,10 +46,30 @@ namespace config {
     const uint8_t BRIGHTNESS = 5;
   }
 
+/**
+ * There is only one ADC so we need to use DIGITAL READ for the others sensors,
+ * this requires a separate ADC for each of them or a different board or sensors
+ * with an integrated ADC.
+ * For testing purposes we can mock a signal in those pins by using another board
+ * like an ATMega2560 which I own to simulate other sensors output.
+*/
   namespace pins {
     namespace noise {
-      const uint8_t SIGNAL_READ = A0;
+      const uint8_t ANALOG_READ = A0;
     }
+
+    namespace temperature {
+      const uint8_t DIGITAL_READ = 12;
+    }
+
+    namespace humidity {
+      const uint8_t DIGITAL_READ = 13;
+    }
+
+    namespace proximity {
+      const uint8_t DIGITAL_READ = 15;
+    }
+
     namespace leds {
       const uint8_t VIN = 14;
     }
@@ -66,15 +86,26 @@ namespace config {
 
   namespace sampling {
     const uint16_t DELAY_MS = 5;
+    const uint16_t AVERAGE_COUNT = 100;
 
     namespace noise {
+      const char * const NAME = "noise";
       namespace raw {
         const uint16_t THRESHOLD_MAX = 1000;
         const uint16_t THRESHOLD_MIN = 0;
       }
-      namespace rate {
-        const uint16_t AVERAGE_COUNT = 100;
-      }
+    }
+
+    namespace temperature {
+      const char * const NAME = "temperature";
+    }
+
+    namespace humidity {
+      const char * const NAME = "humidity";
+    }
+
+    namespace proximity {
+      const char * const NAME = "proximity";
     }
   }
 }

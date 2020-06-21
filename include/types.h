@@ -26,5 +26,5 @@ typedef struct SensorPayload {
   const uint16_t min;
   const uint16_t max;
   const uint16_t avg;
-  const char* deviceId;
+  const char* signalName;
 } SensorPayload;

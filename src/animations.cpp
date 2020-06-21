@@ -26,7 +26,8 @@ void Animations::noiseMagnitude(uint16 leds){
   ledRing.getStrip()->show();
 }
 
-Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh) : ledRing(ledRing){
+Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh) :
+    ledRing(ledRing){
   high = (int)(ledRing.getTotalLeds() * ratioHigh);
   low = (int)(ledRing.getTotalLeds() * ratioLow);
 
@@ -35,6 +36,4 @@ Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh) : le
   red = ledRing.getStrip()->Color(255, 0, 0);
 }
 
-Animations::~Animations(){
-
-}
+Animations::~Animations(){}

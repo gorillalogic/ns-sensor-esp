@@ -1,4 +1,5 @@
 #include "sampling.h"
+#include "config.h"
 #include "logger.h"
 
 void Sampling::add(uint16_t value){
@@ -22,9 +23,9 @@ SensorPayload Sampling::read(){
     min,
     max,
     avg,
-    deviceId,
+    signalName,
   };
-  Log.verbose(logger::sampling::readSampling, deviceId, min, max, sum, limit, avg);
+  Log.verbose(logger::sampling::readSampling, signalName, min, max, sum, limit, avg);
   return payload;
 }
 
@@ -35,10 +36,9 @@ void Sampling::clear(){
   iteration = 0;
 }
 
-Sampling::Sampling(const uint16_t limit, const char* deviceId){
+Sampling::Sampling(const char * const signalName, const uint16_t limit) :
+    signalName(signalName), limit(limit){
   clear();
-  this->limit = limit;
-  this->deviceId = deviceId;
 }
 
 Sampling::~Sampling(){}

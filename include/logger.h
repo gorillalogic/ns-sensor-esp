@@ -2,7 +2,9 @@
 
 #include <ArduinoLog.h>
 
+#ifndef CR
 #define CR "\n\r"
+#endif
 
 namespace logger {
   namespace wifi {

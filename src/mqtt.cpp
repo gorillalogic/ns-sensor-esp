@@ -6,7 +6,7 @@
 
 void Mqtt::publish(SensorPayload payload){
   char event[100];
-  sprintf(event, "%s %d %d %d", payload.deviceId, payload.avg, payload.max, payload.min);
+  sprintf(event, "%s %d %d %d", payload.signalName, payload.avg, payload.max, payload.min);
   if (!feed->publish(event)){
     Log.error(logger::mqtt::failedSending);
     if (mqttFailures >= LIMIT_FAILURES){
@@ -18,7 +18,7 @@ void Mqtt::publish(SensorPayload payload){
     }
     mqttFailures += 1;
   }else{
-    Log.notice(logger::mqtt::payloadSent, payload.deviceId, payload.avg, payload.max, payload.min);
+    Log.notice(logger::mqtt::payloadSent, payload.signalName, payload.avg, payload.max, payload.min);
   }
 }
 
@@ -67,7 +67,7 @@ Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel){
 }
 
 Mqtt::~Mqtt(){
-  free(wifiClient);
-  free(mqttClient);
-  free(feed);
+  delete wifiClient;
+  delete mqttClient;
+  delete feed;
 }

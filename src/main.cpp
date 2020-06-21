@@ -19,6 +19,8 @@
 #include "led_ring.h"
 #include "animations.h"
 #include "utils.h"
+#include "analog_sensor.h"
+#include "digital_sensor.h"
 
 LedRing ledRing(
   config::leds::LEDS_TOTAL,
@@ -31,11 +33,6 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-Sampling sampling(
-  config::sampling::noise::rate::AVERAGE_COUNT,
-  config::mdns::HOSTNAME.name
-);
-
 Wifi wifi = Wifi(
   config::wifi::NETWORKS
 );
@@ -46,6 +43,30 @@ Mqtt mqtt(
   config::mqtt::DEFAULT_CONFIG,
   config::mqtt::DEFAULT_CREDENTIALS,
   config::mqtt::channels::NOISE
+);
+
+AnalogSensor noise(
+  config::sampling::noise::NAME,
+  config::pins::noise::ANALOG_READ,
+  &mqtt
+);
+
+DigitalSensor temperature(
+  config::sampling::temperature::NAME,
+  config::pins::temperature::DIGITAL_READ,
+  &mqtt
+);
+
+DigitalSensor humidity(
+  config::sampling::humidity::NAME,
+  config::pins::humidity::DIGITAL_READ,
+  &mqtt
+);
+
+DigitalSensor proximity(
+  config::sampling::proximity::NAME,
+  config::pins::proximity::DIGITAL_READ,
+  &mqtt
 );
 
 void setup() {
@@ -61,13 +82,10 @@ void setup() {
 void loop() {
   mDNS.update();
 
-  int noiseValue = analogRead(config::pins::noise::SIGNAL_READ);
-  sampling.add( noiseValue );
-  if ( sampling.enoughSamples() ){
-    SensorPayload payload = sampling.read();
-    mqtt.publish(payload);
-    sampling.clear();
-  }
+  uint16_t noiseValue = noise.nextCycle();
+  temperature.nextCycle();
+  humidity.nextCycle();
+  proximity.nextCycle();
 
   int leds = Utils::calculateLeds(
     noiseValue,
