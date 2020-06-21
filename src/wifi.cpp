@@ -1,5 +1,5 @@
 #include "wifi.h"
-#include "config/logger.h"
+#include "logger.h"
 
 bool Wifi::isConnected(){
   return false;

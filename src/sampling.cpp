@@ -32,6 +32,7 @@ void Sampling::clear(){
 }
 
 Sampling::Sampling(const int limit, const char* deviceId){
+  clear();
   this->limit = limit;
   this->deviceId = deviceId;
 }

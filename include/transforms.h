@@ -1,5 +1,4 @@
-#ifndef TRANSFORMS_H
-#define TRANSFORMS_H
+#pragma once
 
 class Transforms{
   public:
@@ -7,5 +6,3 @@ class Transforms{
 
     static int discreteSteps(int noiseMeasurement, int minMeasurement, int maxMeasurement, int steps);
 };
-
-#endif /* TRANSFORMS_H */

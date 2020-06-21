@@ -1,5 +1,4 @@
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 typedef struct WifiCredentials {
   const char *ssid;
@@ -27,5 +26,3 @@ typedef struct SensorPayload {
   const int avg;
   const char* deviceId;
 } SensorPayload;
-
-#endif /* TYPES_H */

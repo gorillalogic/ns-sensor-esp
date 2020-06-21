@@ -1,8 +1,6 @@
-#ifndef _CONFIG_H_
-#define _CONFIG_H_
+#pragma once
 
 #include <vector>
-
 #include "types.h"
 
 namespace config {
@@ -17,17 +15,16 @@ namespace config {
   namespace mdns {
     const Hostname HOSTNAME = { "noise-sensor-8b6ad8", "noise-sensor-8b6ad8.local" };
     const Hostname COLLECTOR = { "noise-collector-8b6ad8", "noise-collector-8b6ad8.local" };
-    const Hostname &SENSOR = HOSTNAME;
   }
 
   namespace mqtt {
     const int RETRIES = 3;
-    const char* USERNAME = "noise";
+    const char * const USERNAME = "noise";
     const MqttCredentials DEFAULT_CREDENTIALS = { "noise", "42noisealert42" };
     const MqttConfig DEFAULT_CONFIG = { mdns::COLLECTOR, 1883 };
 
     namespace channels {
-      const char *NOISE = "sensors/noise";
+      const char * const NOISE = "sensors/noise";
     }
   }
 
@@ -68,5 +65,3 @@ namespace config {
     }
   }
 }
-
-#endif /* _CONFIG_H_ */

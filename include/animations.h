@@ -1,7 +1,5 @@
-#ifndef ANIMATIONS_H
-#define ANIMATIONS_H
+#pragma once
 
-#include <Adafruit_NeoPixel.h>
 #include "led_ring.h"
 
 class Animations {
@@ -20,5 +18,3 @@ class Animations {
     void clear();
     void noiseMagnitude(int steps);
 };
-
-#endif /* ANIMATIONS_H */

@@ -1,6 +1,6 @@
 #include "mdns.h"
-#include "config/config.h"
-#include "config/logger.h"
+#include "config.h"
+#include "logger.h"
 #include <ESP8266mDNS.h>
 
 void Mdns::assign(){

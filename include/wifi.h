@@ -1,5 +1,4 @@
-#ifndef WIFI_H
-#define WIFI_H
+#pragma once
 
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
@@ -20,5 +19,3 @@ class Wifi {
     void connect();
     void disconnect();
 };
-
-#endif /* WIFI_H */

@@ -1,5 +1,4 @@
-#ifndef _MDNS_H_
-#define _MDNS_H_
+#pragma once
 
 class Mdns{
   public:
@@ -11,5 +10,3 @@ class Mdns{
     void start();
     bool clear();
 };
-
-#endif /* _MDNS_H_ */

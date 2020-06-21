@@ -1,5 +1,4 @@
-#ifndef LED_RING_H
-#define LED_RING_H
+#pragma once
 
 #include <Adafruit_NeoPixel.h>
 
@@ -19,5 +18,3 @@ class LedRing{
     int getPinVIN();
     Adafruit_NeoPixel &getStrip();
 };
-
-#endif /* LED_RING_H */

@@ -1,5 +1,5 @@
 #include "mqtt.h"
-#include "config/logger.h"
+#include "logger.h"
 
 void Mqtt::publish(SensorPayload payload){
   char event[100];

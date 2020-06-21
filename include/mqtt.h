@@ -1,12 +1,11 @@
-#ifndef MQTT_H
-#define MQTT_H
+#pragma once
 
 #include <ESP8266WiFi.h>
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
 #include "types.h"
-#include "config/config.h"
+#include "config.h"
 
 class Mqtt{
   private:
@@ -24,5 +23,3 @@ class Mqtt{
     void connect();
     void disconnect();
 };
-
-#endif /* MQTT_H */

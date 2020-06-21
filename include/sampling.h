@@ -1,5 +1,4 @@
-#ifndef SAMPLING_H
-#define SAMPLING_H
+#pragma once
 
 #include "types.h"
 
@@ -21,5 +20,3 @@ class Sampling{
     SensorPayload read();
     void clear();
 };
-
-#endif /* SAMPLING_H */
