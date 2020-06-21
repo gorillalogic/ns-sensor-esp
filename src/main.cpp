@@ -5,6 +5,7 @@
  * 2. Creates a pattern to NeoPixel Ring according to the magnitude of the noise signal.
  * 3. Sends data via MQTT every second.
  */
+
 #include <Arduino.h>
 #include <ArduinoLog.h>
 #include <vector>
@@ -43,7 +44,6 @@ Wifi wifi = Wifi(
 
 Mdns mDNS = Mdns();
 
-
 Mqtt mqtt(
   config::mqtt::DEFAULT_CONFIG,
   config::mqtt::DEFAULT_CREDENTIALS,
@@ -51,7 +51,7 @@ Mqtt mqtt(
 );
 
 void setup() {
-  Serial.begin( config::serial::BAUD_RATE );
+  Serial.begin(config::serial::BAUD_RATE);
   Log.begin(LOG_LEVEL, &Serial, true);
   ledRing.setup();
   wifi.connect();
@@ -62,17 +62,9 @@ void setup() {
 void loop() {
   mDNS.update();
 
-  int noiseValue = analogRead( config::pins::noise::SIGNAL_READ );
+  int noiseValue = analogRead(config::pins::noise::SIGNAL_READ);
 
-  int steps = transforms.discreteSteps(
-    noiseValue,
-    config::sampling::noise::raw::THRESHOLD_MAX,
-    config::sampling::noise::raw::THRESHOLD_MIN,
-    config::leds::LEDS_TOTAL
-  );
-  Log.verbose("LedRing: %d steps", noiseValue);
-  animations.noiseMagnitude( steps );
-
+  // publish to mqtt
   sampling.add( noiseValue );
   if ( sampling.enoughSamples() ){
     SensorPayload payload = sampling.read();
@@ -80,5 +72,14 @@ void loop() {
     sampling.clear();
   }
 
-  delay( config::sampling::DELAY_MS );
+  // display in led ring
+  int leds = transforms.discreteSteps(
+    noiseValue,
+    config::sampling::noise::raw::THRESHOLD_MAX,
+    config::sampling::noise::raw::THRESHOLD_MIN,
+    config::leds::LEDS_TOTAL
+  );
+  animations.noiseMagnitude(leds);
+
+  delay(config::sampling::DELAY_MS);
 }

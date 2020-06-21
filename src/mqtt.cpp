@@ -10,7 +10,7 @@ void Mqtt::publish(SensorPayload payload){
   if (!feed->publish(event)){
     Log.error(logger::mqtt::failedSending);
     if (mqttFailures >= LIMIT_FAILURES){
-      Log.error("Mqtt: Failed %d times. Restarting connecting", mqttFailures);
+      Log.error(logger::mqtt::failedSendingLimitTries, mqttFailures);
       mqttFailures = 0;
       mqttClient->disconnect();
       connect();
@@ -18,7 +18,7 @@ void Mqtt::publish(SensorPayload payload){
     }
     mqttFailures += 1;
   }else{
-    Log.verbose("Mqtt: Sent %s %d %d %d", payload.deviceId, payload.avg, payload.max, payload.min);
+    Log.verbose(logger::mqtt::payloadSent, payload.deviceId, payload.avg, payload.max, payload.min);
   }
 }
 
