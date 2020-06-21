@@ -42,7 +42,7 @@ namespace config {
   }
 
   namespace serial {
-    const uint32_t BAUD_RATE = 115200;
+    const uint32_t BAUD_RATE = 9600;
     const uint8_t BRIGHTNESS = 5;
   }
 

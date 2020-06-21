@@ -64,20 +64,19 @@ void loop() {
   int noiseValue = analogRead(config::pins::noise::SIGNAL_READ);
   sampling.add( noiseValue );
   if ( sampling.enoughSamples() ){
-    int leds = Utils::calculateLeds(
-      noiseValue,
-      config::sampling::noise::raw::THRESHOLD_MIN,
-      config::sampling::noise::raw::THRESHOLD_MAX,
-      config::leds::LEDS_TOTAL
-    );
-    animations.noiseMagnitude(leds);
-
     SensorPayload payload = sampling.read();
     mqtt.publish(payload);
     sampling.clear();
-
-    Log.notice(logger::leds::displayLedsCount, noiseValue, leds);
   }
+
+  int leds = Utils::calculateLeds(
+    noiseValue,
+    config::sampling::noise::raw::THRESHOLD_MIN,
+    config::sampling::noise::raw::THRESHOLD_MAX,
+    config::leds::LEDS_TOTAL
+  );
+  animations.noiseMagnitude(leds);
+  Log.verbose(logger::leds::displayLedsCount, noiseValue, leds);
 
   delay(config::sampling::DELAY_MS);
 }

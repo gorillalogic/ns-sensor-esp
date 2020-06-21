@@ -6,7 +6,7 @@ void LedRing::setup(){
 }
 
 void LedRing::clear(){
-
+  strip->clear();
 }
 
 uint16_t LedRing::getTotalLeds(){
