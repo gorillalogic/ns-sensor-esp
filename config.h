@@ -1,25 +1,30 @@
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
+
+#include <vector>
+
 #include "types.h"
 
 namespace config {
   namespace wifi {
-    const Credentials HOME = { "IoT", "42noisealert42" };
-    const Credentials WORK = { "GorillaGuest", "gorillalogicguest" };
-    const Credentials PHONE = { "iPhone-Emma", "@noise42@" };
+    const WifiCredentials HOME = { "IoT", "42noisealert42" };
+    const WifiCredentials WORK = { "GorillaGuest", "gorillalogicguest" };
+    const WifiCredentials PHONE = { "iPhone-Emma", "@noise42@" };
 
-    const vector<Credentials> NETWORKS = { HOME, WORK, PHONE };
+    const std::vector<WifiCredentials> NETWORKS = { HOME, WORK, PHONE };
   }
 
   namespace mdns {
-    const Hostname LOCAL = { "noise-sensor-8b6ad8", "noise-sensor-8b6ad8.local" };
+    const Hostname HOSTNAME = { "noise-sensor-8b6ad8", "noise-sensor-8b6ad8.local" };
     const Hostname COLLECTOR = { "noise-collector-8b6ad8", "noise-collector-8b6ad8.local" };
-    const Hostname &SENSOR = LOCAL;
+    const Hostname &SENSOR = HOSTNAME;
   }
 
   namespace mqtt {
     const int RETRIES = 3;
     const char* USERNAME = "noise";
-    const Credentials DEFAULT_CREDENTIALS = { "noise", "42noisealert42" };
-    const Config DEFAULT_CONFIG = { 1883, mdns::COLLECTOR };
+    const MqttCredentials DEFAULT_CREDENTIALS = { "noise", "42noisealert42" };
+    const MqttConfig DEFAULT_CONFIG = { mdns::COLLECTOR, 1883 };
 
     namespace channels {
       const char *NOISE = "sensors/noise";
@@ -33,7 +38,7 @@ namespace config {
 
   namespace pins {
     namespace noise {
-      const int SIGNAL_READ = A0;
+      const int SIGNAL_READ = 0; //A0;
     }
     namespace leds {
       const int VIN = 14;
@@ -44,8 +49,8 @@ namespace config {
     const int LEDS_TOTAL = 24;
 
     namespace animations {
-      const double LOW = 0.75;
-      const double HIGH = 1;
+      const double THRESHOLD_LOW = 0.75;
+      const double THRESHOLD_HIGH = 1;
     }
   }
 
@@ -63,3 +68,5 @@ namespace config {
     }
   }
 }
+
+#endif /* _CONFIG_H_ */

@@ -1,21 +1,23 @@
+#ifndef LED_RING_H
+#define LED_RING_H
+
 #include <Adafruit_NeoPixel.h>
 
 class LedRing{
   private:
     Adafruit_NeoPixel strip;
-    const uint32_t green;
-    const uint32_t blue;
-    const uint32_t yellow;
-    const int totalLeds;
-    const int pinVIN;
+    int totalLeds;
+    int pinVIN;
 
   public:
-    explicit Leds(int totalLeds, int pinVIN);
-    ~Leds();
+    explicit LedRing(int totalLeds, int pinVIN);
+    ~LedRing();
 
     void setup();
     void clear();
     int getTotalLeds();
     int getPinVIN();
     Adafruit_NeoPixel &getStrip();
-}
+};
+
+#endif /* LED_RING_H */

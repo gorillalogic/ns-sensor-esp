@@ -1,4 +1,7 @@
-namespace log {
+#ifndef LOGGER_H
+#define LOGGER_H
+
+namespace logger {
   namespace wifi {
     const char *connecting = "Wifi: Connecting ...";
     const char *connected = "Wifi: Connected.";
@@ -17,3 +20,5 @@ namespace log {
     const char *failedSending = "MQTT: Failed sending.";
   }
 }
+
+#endif /* LOGGER_H */

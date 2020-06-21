@@ -1,34 +1,34 @@
 #include "mdns.h"
 #include "../../config.h"
-#include "../../log.h"
+#include "../../strings.h"
 #include <ESP8266mDNS.h>
 
-void MDns::assign(){
-  if (!MDNS.begin(config::mdns::LOCAL.name)) {             // Start the mDNS responder for esp8266.local
-    Serial.println(log::mdns::setupError);
+void Mdns::assign(){
+  if (!MDNS.begin(config::mdns::HOSTNAME.name)) {             // Start the mDNS responder for esp8266.local
+    Serial.println(logger::mdns::setupError);
   }
-  Serial.println(log::mdns::responderStarted);
+  Serial.println(logger::mdns::responderStarted);
 }
 
-bool MDns::clear(){
+bool Mdns::clear(){
 
 }
 
-void MDns::update(){
+void Mdns::update(){
   MDNS.update();
 }
 
-void MDns::start(){
-  if ( MDNS.begin(config::mdns::LOCAL.name) ){
-    Serial.println(log::mdns::started);
+void Mdns::start(){
+  if ( MDNS.begin(config::mdns::HOSTNAME.name) ){
+    Serial.println(logger::mdns::started);
   }
   MDNS.addService("http", "tcp", 80);
 }
 
-MDns::MDns(){
+Mdns::Mdns(){
 
 }
 
-MDns::~MDns(){
+Mdns::~Mdns(){
 
 }

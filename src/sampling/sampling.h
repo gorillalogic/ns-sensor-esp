@@ -1,3 +1,6 @@
+#ifndef SAMPLING_H
+#define SAMPLING_H
+
 #include "../../types.h"
 
 class Sampling{
@@ -18,3 +21,5 @@ class Sampling{
     SensorPayload read();
     void clear();
 };
+
+#endif /* SAMPLING_H */

@@ -1,4 +1,4 @@
-#include "Animations.h"
+#include "animations.h"
 #include "config.h"
 
 void Animations::clear(){
@@ -10,7 +10,7 @@ void Animations::noiseMagnitude(int leds){
 
   if (leds > high){
     ledRing.getStrip().fill(green, 0, low);
-    ledRing.getStrip().fill(yellow, low, _high - low);
+    ledRing.getStrip().fill(yellow, low, high - low);
     ledRing.getStrip().fill(red, high, leds - high);
   }else if (leds > low){
     ledRing.getStrip().fill(green, 0, low);
@@ -23,10 +23,12 @@ void Animations::noiseMagnitude(int leds){
 }
 
 Animations::Animations(LedRing &ledRing, double ratioLow, double ratioHigh){
-  high = (int)(ledRing.getTotalLeds() * ratioHigh);
-  low = (int)(ledRing.getTotalLeds() * ratioLow);
+  high = (int)(ledRing->getTotalLeds() * ratioHigh);
+  low = (int)(ledRing->getTotalLeds() * ratioLow);
 
-  green = strip.Color(0, 255, 0);
-  yellow = strip.Color(255, 255, 0);
-  red = strip.Color(255, 0, 0);
+  green = ledRing->getStrip().Color(0, 255, 0);
+  yellow = ledRing->getStrip().Color(255, 255, 0);
+  red = ledRing->getStrip().Color(255, 0, 0);
+
+  this->ledRing = ledRing;
 }

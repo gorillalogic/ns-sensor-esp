@@ -1,29 +1,25 @@
-namespace wifi {
-  typedef struct Credentials {
-    const char *ssid;
-    const char *pass;
-  } Credentials;
-}
+#ifndef TYPES_H
+#define TYPES_H
 
-namespace mdns {
-  typedef struct Hostname {
-    const char *name;
-    const char *domainName;
-  } Hostname;
-}
+typedef struct WifiCredentials {
+  const char *ssid;
+  const char *pass;
+} WifiCredentials;
 
-namespace mqtt {
-  typedef struct Credentials {
-    const char *username;
-    const char *password;
-  } Credentials;
+typedef struct Hostname {
+  const char *name;
+  const char *domain;
+} Hostname;
 
-  typedef struct Config {
-    int port;
-    mdns::Hostname hostname;
-  } Config;
-}
+typedef struct MqttCredentials {
+  const char *username;
+  const char *password;
+} MqttCredentials;
 
+typedef struct MqttConfig {
+  Hostname hostname;
+  int port;
+} MqttConfig;
 
 typedef struct SensorPayload {
   const int min;
@@ -31,3 +27,5 @@ typedef struct SensorPayload {
   const int avg;
   const char* deviceId;
 } SensorPayload;
+
+#endif /* TYPES_H */

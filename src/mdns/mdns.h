@@ -1,12 +1,15 @@
-class MDns{
-  private:
+#ifndef _MDNS_H_
+#define _MDNS_H_
 
+class Mdns{
   public:
-    explicit MDns();
-    ~MDns();
+    explicit Mdns();
+    ~Mdns();
 
     void assign();
     void update();
     void start();
     bool clear();
 };
+
+#endif /* _MDNS_H_ */

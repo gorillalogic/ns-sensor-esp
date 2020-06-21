@@ -15,12 +15,13 @@ bool Sampling::enoughSamples(){
 }
 
 SensorPayload Sampling::read(){
-  return SensorPayload(
+  SensorPayload payload = {
     min,
     max,
     sum / limit,
     deviceId,
-  );
+  };
+  return payload;
 }
 
 void Sampling::clear(){

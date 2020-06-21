@@ -1,18 +1,24 @@
-#include "config.h"
+#ifndef WIFI_H
+#define WIFI_H
 
-using namespace std;
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+
+#include "config.h"
 
 class Wifi {
   private:
     ESP8266WiFiMulti wifiMulti;
-    string ipAddress;
+    std::string ipAddress;
 
   public:
     explicit Wifi();
     ~Wifi();
 
     bool isConnected();
-    string currentIpAddress();
+    std::string currentIpAddress();
     void connect();
     void disconnect();
-}
+};
+
+#endif /* WIFI_H */

@@ -1,20 +1,22 @@
-#include "config.h"
+#ifndef MQTT_H
+#define MQTT_H
+
+#include <ESP8266WiFi.h>
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
-using namespace std;
-using namespace config::mqtt;
+#include "../../types.h"
+#include "../../config.h"
 
 class Mqtt{
   private:
     WiFiClient wifiClient;
     Adafruit_MQTT_Client mqttClient;
     Adafruit_MQTT_Publish feed;
-    string device;
     int mqttFailures;
 
   public:
-    explicit Mqtt(string deviceId, Hostname server, Config config, Credentials credentials, const char *channel);
+    explicit Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel);
     ~Mqtt();
 
     void publish(SensorPayload payload);
@@ -22,3 +24,5 @@ class Mqtt{
     void connect();
     void disconnect();
 };
+
+#endif /* MQTT_H */

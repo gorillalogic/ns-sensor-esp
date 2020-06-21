@@ -11,3 +11,7 @@ int Transforms::discreteSteps(int noiseMeasurement, int minMeasurement, int maxM
   }
   return steps;
 }
+
+Transforms::Transforms(){
+
+}
