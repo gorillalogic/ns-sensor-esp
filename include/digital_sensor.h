@@ -7,5 +7,5 @@ class DigitalSensor : public Sensor{
     int read();
 
   public:
-    DigitalSensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt);
+    DigitalSensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt, const uint8_t controlPin);
 };

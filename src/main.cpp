@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "analog_sensor.h"
 #include "digital_sensor.h"
+#include "analog_multiplexor.h"
 
 LedRing ledRing(
   config::leds::LEDS_TOTAL,
@@ -45,52 +46,43 @@ Mqtt mqtt(
   config::mqtt::channels::NOISE
 );
 
-AnalogSensor noise(
-  config::sampling::noise::NAME,
-  config::pins::noise::ANALOG_READ,
-  &mqtt
+AnalogSensor noise_primary(
+  config::sampling::noise_primary::NAME,
+  config::pins::ANALOG_READ,
+  &mqtt,
+  config::pins::noise_primary::CONTROL_PIN
 );
 
-DigitalSensor temperature(
-  config::sampling::temperature::NAME,
-  config::pins::temperature::DIGITAL_READ,
-  &mqtt
+AnalogSensor noise_secondary(
+  config::sampling::noise_secondary::NAME,
+  config::pins::ANALOG_READ,
+  &mqtt,
+  config::pins::noise_secondary::CONTROL_PIN
 );
 
-DigitalSensor humidity(
-  config::sampling::humidity::NAME,
-  config::pins::humidity::DIGITAL_READ,
-  &mqtt
-);
-
-DigitalSensor proximity(
-  config::sampling::proximity::NAME,
-  config::pins::proximity::DIGITAL_READ,
-  &mqtt
-);
+AnalogMultiplexor multiplexor;
 
 void setup() {
-  Serial.begin(115200);
   Serial.begin(config::serial::BAUD_RATE);
   Log.begin(LOG_LEVEL, &Serial, true);
   ledRing.setup();
   wifi.connect();
   mDNS.assign();
   mqtt.connect();
+  multiplexor.addAnalogSensor(&noise_primary);
+  multiplexor.addAnalogSensor(&noise_secondary);
 }
 
 void loop() {
   mDNS.update();
 
-  uint16_t noiseValue = noise.nextCycle();
-  temperature.nextCycle();
-  humidity.nextCycle();
-  proximity.nextCycle();
+  AnalogSensor* sensor = multiplexor.rotate();
+  uint16_t noiseValue = sensor->nextCycle();
 
   int leds = Utils::calculateLeds(
     noiseValue,
-    config::sampling::noise::raw::THRESHOLD_MIN,
-    config::sampling::noise::raw::THRESHOLD_MAX,
+    config::sampling::noise_primary::raw::THRESHOLD_MIN,
+    config::sampling::noise_primary::raw::THRESHOLD_MAX,
     config::leds::LEDS_TOTAL
   );
   animations.noiseMagnitude(leds);

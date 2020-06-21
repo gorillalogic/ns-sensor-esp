@@ -54,20 +54,17 @@ namespace config {
  * like an ATMega2560 which I own to simulate other sensors output.
 */
   namespace pins {
-    namespace noise {
-      const uint8_t ANALOG_READ = A0;
+
+    // Unique ADC on ESP8266.
+    const uint8_t ANALOG_READ = A0;
+    const uint8_t NO_CONTROL = 0xFF;
+
+    namespace noise_primary {
+      const uint8_t CONTROL_PIN = 12;
     }
 
-    namespace temperature {
-      const uint8_t DIGITAL_READ = 12;
-    }
-
-    namespace humidity {
-      const uint8_t DIGITAL_READ = 13;
-    }
-
-    namespace proximity {
-      const uint8_t DIGITAL_READ = 15;
+    namespace noise_secondary {
+      const uint8_t CONTROL_PIN = 13;
     }
 
     namespace leds {
@@ -85,11 +82,22 @@ namespace config {
   }
 
   namespace sampling {
-    const uint16_t DELAY_MS = 5;
+    const uint16_t NORMAL_RATE = 5;
+    const uint16_t SLOW_RATE = 500;
+
+    const uint16_t DELAY_MS = NORMAL_RATE;
     const uint16_t AVERAGE_COUNT = 100;
 
-    namespace noise {
-      const char * const NAME = "noise";
+    namespace noise_primary {
+      const char * const NAME = "noise_primary";
+      namespace raw {
+        const uint16_t THRESHOLD_MAX = 1000;
+        const uint16_t THRESHOLD_MIN = 0;
+      }
+    }
+
+    namespace noise_secondary {
+      const char * const NAME = "noise_secondary";
       namespace raw {
         const uint16_t THRESHOLD_MAX = 1000;
         const uint16_t THRESHOLD_MIN = 0;

@@ -16,10 +16,13 @@ class Sensor{
 
   protected:
     const uint8_t inputPin;
+    const uint8_t controlPin;
     virtual int read();
 
   public:
-    explicit Sensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt);
+    explicit Sensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt, const uint8_t controlPin);
+    void enable();
+    void disable();
     ~Sensor();
 
     uint16_t nextCycle();
