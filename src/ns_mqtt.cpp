@@ -1,10 +1,10 @@
-#include "mqtt.h"
+#include "ns_mqtt.h"
 #include "logger.h"
 
 #define CONNECTED 0  // connect will return 0 for connected
 #define LIMIT_FAILURES 10
 
-void Mqtt::publish(SensorPayload payload){
+void NS_MQTT::publish(SensorPayload payload){
   char event[100];
   sprintf(event, "%s %d %d %d %s", payload.signalName, payload.avg, payload.max, payload.min, macAddress.c_str());
   if (!feed->publish(event)){
@@ -22,11 +22,11 @@ void Mqtt::publish(SensorPayload payload){
   }
 }
 
-bool Mqtt::isConnected(){
+bool NS_MQTT::isConnected(){
   return false;
 }
 
-void Mqtt::connect(){
+void NS_MQTT::connect(){
   if (mqttClient->connected()) {
     return;
   }
@@ -49,11 +49,11 @@ void Mqtt::connect(){
   Log.notice(logger::mqtt::connected);
 }
 
-void Mqtt::disconnect(){
+void NS_MQTT::disconnect(){
 
 }
 
-Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress) :
+NS_MQTT::NS_MQTT(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress) :
     macAddress(macAddress){
   wifiClient = new WiFiClient();
   mqttClient = new Adafruit_MQTT_Client(
@@ -67,7 +67,7 @@ Mqtt::Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel, 
   mqttFailures = 0;
 }
 
-Mqtt::~Mqtt(){
+NS_MQTT::~NS_MQTT(){
   delete wifiClient;
   delete mqttClient;
   delete feed;

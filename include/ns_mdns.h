@@ -1,9 +1,9 @@
 #pragma once
 
-class Mdns{
+class NS_mDNS{
   public:
-    explicit Mdns();
-    ~Mdns();
+    explicit NS_mDNS();
+    ~NS_mDNS();
 
     void assign();
     void update();

@@ -16,14 +16,14 @@ typedef WiFiMulti WiFiMultiController;
 
 #include "config.h"
 
-class WifiController {
+class NS_WiFi{
   private:
     WiFiMultiController wifiMulti;
     std::string ipAddress;
 
   public:
-    explicit WifiController(std::vector<WifiCredentials> credentials);
-    ~WifiController();
+    explicit NS_WiFi(std::vector<WifiCredentials> credentials);
+    ~NS_WiFi();
 
     bool isConnected();
     std::string currentIpAddress();

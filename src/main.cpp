@@ -16,9 +16,9 @@
 #include "types.h"
 #include "config.h"
 #include "logger.h"
-#include "wifi_controller.h"
-#include "mdns.h"
-#include "mqtt.h"
+#include "ns_wifi.h"
+#include "ns_mdns.h"
+#include "ns_mqtt.h"
 #include "sampling.h"
 #include "led_ring.h"
 #include "animations.h"
@@ -38,13 +38,13 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-WifiController wifi = WifiController(
+NS_WiFi wifi = NS_WiFi(
   config::wifi::NETWORKS
 );
 
-Mdns mDNS = Mdns();
+NS_mDNS mDNS = NS_mDNS();
 
-Mqtt mqtt(
+NS_MQTT mqtt(
   config::mqtt::DEFAULT_CONFIG,
   config::mqtt::DEFAULT_CREDENTIALS,
   config::mqtt::channels::NOISE,

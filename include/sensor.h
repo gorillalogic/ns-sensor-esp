@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "sampling.h"
-#include "mqtt.h"
+#include "ns_mqtt.h"
 
 /**
  * Abstract class declaration.
@@ -12,7 +12,7 @@ class Sensor{
   private:
     const char * const id;
     Sampling sampling;
-    Mqtt *mqtt;
+    NS_MQTT *mqtt;
 
   protected:
     const uint8_t inputPin;
@@ -20,7 +20,7 @@ class Sensor{
     virtual int read();
 
   public:
-    explicit Sensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt, const uint8_t controlPin);
+    explicit Sensor(const char * const id, const uint8_t inputPin, NS_MQTT *mqtt, const uint8_t controlPin);
     void enable();
     void disable();
     ~Sensor();

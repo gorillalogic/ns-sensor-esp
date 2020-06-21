@@ -14,7 +14,7 @@
 #include "types.h"
 #include "config.h"
 
-class Mqtt{
+class NS_MQTT{
   private:
     WiFiClient *wifiClient;
     Adafruit_MQTT_Client *mqttClient;
@@ -23,8 +23,8 @@ class Mqtt{
     String macAddress;
 
   public:
-    explicit Mqtt(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress);
-    ~Mqtt();
+    explicit NS_MQTT(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress);
+    ~NS_MQTT();
 
     void publish(SensorPayload payload);
     bool isConnected();

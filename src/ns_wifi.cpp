@@ -1,15 +1,15 @@
-#include "wifi_controller.h"
+#include "ns_wifi.h"
 #include "logger.h"
 
-bool WifiController::isConnected(){
+bool NS_WiFi::isConnected(){
   return false;
 }
 
-std::string WifiController::currentIpAddress(){
+std::string NS_WiFi::currentIpAddress(){
   return ipAddress;
 }
 
-void WifiController::connect(){
+void NS_WiFi::connect(){
   Log.notice(logger::wifi::connecting);
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
@@ -19,11 +19,11 @@ void WifiController::connect(){
   Log.notice(logger::wifi::ip, WiFi.localIP().toString().c_str());
 }
 
-void WifiController::disconnect(){
+void NS_WiFi::disconnect(){
 
 }
 
-WifiController::WifiController(std::vector<WifiCredentials> credentials){
+NS_WiFi::NS_WiFi(std::vector<WifiCredentials> credentials){
   wifiMulti = WiFiMultiController();
 
   std::vector<WifiCredentials>::iterator it = credentials.begin();
@@ -34,4 +34,4 @@ WifiController::WifiController(std::vector<WifiCredentials> credentials){
   }
 }
 
-WifiController::~WifiController(){}
+NS_WiFi::~NS_WiFi(){}
