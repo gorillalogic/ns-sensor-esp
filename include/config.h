@@ -26,7 +26,12 @@ namespace config {
   }
 
   namespace mdns {
+#if defined(ESP8266)
     const Hostname HOSTNAME = { "noise-sensor-8b6ad8", "noise-sensor-8b6ad8.local" };
+#endif
+#if defined(ESP32)
+    const Hostname HOSTNAME = { "noise-sensor-4fec8a", "noise-sensor-4fec8a.local" };
+#endif
     const Hostname COLLECTOR = { "noise-collector-8b6ad8", "noise-collector-8b6ad8.local" };
   }
 
@@ -55,9 +60,9 @@ namespace config {
 */
   namespace pins {
 
-    // Unique ADC on ESP8266.
-    const uint8_t ANALOG_READ = A0;
     const uint8_t NO_CONTROL = 0xFF;
+#if defined(ESP8266)
+    const uint8_t ANALOG_READ = A0;
 
     namespace noise_primary {
       const uint8_t CONTROL_PIN = 12;
@@ -71,6 +76,23 @@ namespace config {
       const uint8_t VIN = 14;
     }
   }
+#endif
+#if defined(ESP32)
+    const uint8_t ANALOG_READ = 36;
+
+    namespace noise_primary {
+      const uint8_t CONTROL_PIN = 12;
+    }
+
+    namespace noise_secondary {
+      const uint8_t CONTROL_PIN = 13;
+    }
+
+    namespace leds {
+      const uint8_t VIN = 14;
+    }
+  }
+#endif
 
   namespace leds {
     const uint16_t LEDS_TOTAL = 24;
