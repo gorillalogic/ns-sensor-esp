@@ -5,8 +5,8 @@ class NS_mDNS{
     explicit NS_mDNS();
     ~NS_mDNS();
 
+    const char *queryCollectorHost();
     void assign();
     void update();
-    void start();
     bool clear();
 };

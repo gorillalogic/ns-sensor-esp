@@ -44,24 +44,19 @@ NS_WiFi wifi = NS_WiFi(
 
 NS_mDNS mDNS = NS_mDNS();
 
-NS_MQTT mqtt(
-  config::mqtt::DEFAULT_CONFIG,
-  config::mqtt::DEFAULT_CREDENTIALS,
-  config::mqtt::channels::NOISE,
-  WiFi.macAddress()
-);
+NS_MQTT *mqtt;
 
 AnalogSensor noise_primary(
   config::sampling::noise_primary::NAME,
   config::pins::ANALOG_READ,
-  &mqtt,
+  mqtt,
   config::pins::noise_primary::CONTROL_PIN
 );
 
 AnalogSensor noise_secondary(
   config::sampling::noise_secondary::NAME,
   config::pins::ANALOG_READ,
-  &mqtt,
+  mqtt,
   config::pins::noise_secondary::CONTROL_PIN
 );
 
@@ -74,8 +69,20 @@ void setup() {
   wifi.connect();
   mDNS.assign();
   initOTA();
+
+  MqttConfig config = config::mqtt::DEFAULT_CONFIG;
+  Hostname collectorHostname;
+  collectorHostname.domain = mDNS.queryCollectorHost();
+  config.hostname = collectorHostname;
+
+  mqtt = new NS_MQTT(
+    config,
+    config::mqtt::DEFAULT_CREDENTIALS,
+    config::mqtt::channels::NOISE,
+    WiFi.macAddress()
+  );
+
   ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
-  mqtt.connect();
   multiplexor.addAnalogSensor(&noise_primary);
   multiplexor.addAnalogSensor(&noise_secondary);
 }
@@ -83,6 +90,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   mDNS.update();
+  mqtt->connect();
 
   AnalogSensor* sensor = multiplexor.rotate();
   uint16_t noiseValue = sensor->nextCycle();

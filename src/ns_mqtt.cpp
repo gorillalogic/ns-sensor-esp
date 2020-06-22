@@ -23,11 +23,11 @@ void NS_MQTT::publish(SensorPayload payload){
 }
 
 bool NS_MQTT::isConnected(){
-  return false;
+  return mqttClient->connected();
 }
 
 void NS_MQTT::connect(){
-  if (mqttClient->connected()) {
+  if (isConnected()) {
     return;
   }
 
@@ -37,13 +37,8 @@ void NS_MQTT::connect(){
   while ((ret = mqttClient->connect()) != CONNECTED) {
     Log.error(mqttClient->connectErrorString(ret));
     Log.notice(logger::mqtt::retrying);
-
-    mqttClient->disconnect();
-    delay(5000);  // wait 5 seconds
-    retries--;
-    if (retries == 0) {
-      // basically die and wait for WDT to reset me
-      while (1);
+    if (!--retries){
+      break;
     }
   }
   Log.notice(logger::mqtt::connected);
@@ -55,6 +50,7 @@ void NS_MQTT::disconnect(){
 
 NS_MQTT::NS_MQTT(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress) :
     macAddress(macAddress){
+  Log.notice("MQTT using %s" CR, config.hostname.domain);
   wifiClient = new WiFiClient();
   mqttClient = new Adafruit_MQTT_Client(
     wifiClient,

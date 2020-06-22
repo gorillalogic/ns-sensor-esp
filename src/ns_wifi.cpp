@@ -11,6 +11,7 @@ std::string NS_WiFi::currentIpAddress(){
 
 void NS_WiFi::connect(){
   Log.notice(logger::wifi::connecting);
+  WiFi.mode(WIFI_STA);
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
   }
