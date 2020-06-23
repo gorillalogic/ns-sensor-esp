@@ -11,8 +11,10 @@ class NS_mDNS{
     void assign();
     void update();
     bool clear();
+    void setMDNSName(String &mdnsName);
 
   private:
     const char *query;
     IPAddress result;
+    const char *mdnsName;
 };

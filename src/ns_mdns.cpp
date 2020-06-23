@@ -29,7 +29,7 @@ void NS_mDNS::queryCollectorHost(IPAddress &result){
 }
 
 void NS_mDNS::assign(){
-  if (!MDNS.begin(config::mdns::HOSTNAME.name)) {
+  if (!MDNS.begin(mdnsName)) {
     Log.error(logger::mdns::setupError);
   }
   Log.notice(logger::mdns::responderStarted);
@@ -45,5 +45,10 @@ void NS_mDNS::update(){
 #endif
 }
 
+void NS_mDNS::setMDNSName(String &mdnsName){
+  this->mdnsName = mdnsName.c_str();
+}
+
 NS_mDNS::NS_mDNS(){}
+
 NS_mDNS::~NS_mDNS(){}

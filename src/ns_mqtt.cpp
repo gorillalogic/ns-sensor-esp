@@ -32,7 +32,6 @@ void NS_MQTT::connect(){
   }
 
   do{
-    int wifiState = this->wifiClient.connect(this->server_ip, this->server_port);
     client.connect(client_id, username, password);
     Log.notice("MQTT: STATE: %d" CR, client.state());
   } while(!client.connected());
@@ -49,11 +48,15 @@ void NS_MQTT::loop(){
 
 void NS_MQTT::setServerIP(IPAddress &ip){
   this->server_ip = ip;
-  this->client.setServer(config::mqtt::DEFAULT_CONFIG.hostname.name, server_port);
+  this->client.setServer(ip, server_port);
 }
 
 void NS_MQTT::setMacAddress(String &mac_address){
   this->mac_address = mac_address;
+}
+
+void NS_MQTT::setClientId(String &deviceId){
+  this->client_id = deviceId.c_str();
 }
 
 NS_MQTT::NS_MQTT(WiFiClient &wifiClient, PubSubClient &client):
@@ -61,7 +64,6 @@ NS_MQTT::NS_MQTT(WiFiClient &wifiClient, PubSubClient &client):
   username = config::mqtt::DEFAULT_CREDENTIALS.username;
   password = config::mqtt::DEFAULT_CREDENTIALS.password;
   server_port = config::mqtt::DEFAULT_CONFIG.port;
-  client_id = config::mdns::HOSTNAME.name;
   message = (char *) malloc(MSG_BUF_SIZE);
 }
 

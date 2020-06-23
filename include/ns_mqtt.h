@@ -41,6 +41,7 @@ class NS_MQTT{
     void disconnect();
     void setServerIP(IPAddress &ip);
     void setMacAddress(String &mac_address);
+    void setClientId(String &clientId);
 
   private:
     void buildMsg(SensorPayload payload, char * buf);

@@ -26,12 +26,6 @@ namespace config {
   }
 
   namespace mdns {
-#if defined(ESP8266)
-    const Hostname HOSTNAME = { "noise-sensor-8b6ad8", "noise-sensor-8b6ad8.local" };
-#endif
-#if defined(ESP32)
-    const Hostname HOSTNAME = { "noise-sensor-4fec8a", "noise-sensor-4fec8a.local" };
-#endif
     const Hostname COLLECTOR = { "noise-collector-8b6ad8", "noise-collector-8b6ad8.local" };
   }
 

@@ -33,6 +33,9 @@ PubSubClient pubSubClient(wifiClient);
 IPAddress server_ip;
 String mac_address;
 
+String deviceName;
+String deviceHostname;
+
 LedRing ledRing(
   config::leds::LEDS_TOTAL,
   config::pins::leds::VIN
@@ -82,6 +85,14 @@ void setup() {
   mqtt.setMacAddress(mac_address);
   Log.notice("MAC Address: %s" CR, mac_address.c_str());
 
+  /* device name and hostname */
+  Utils::deviceName(mac_address, deviceName);
+  Log.notice("Device Name: %s" CR, deviceName.c_str());
+  mDNS.setMDNSName(deviceName);
+  mqtt.setClientId(deviceName);
+  Utils::deviceHostname(deviceName, deviceHostname);
+  Log.notice("Device Hostname: %s" CR, deviceHostname.c_str());
+
   /* mDNS */
   mDNS.assign();
   do{
@@ -92,7 +103,7 @@ void setup() {
 
   /* OTA */
   initOTA();
-  ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
+  ArduinoOTA.setHostname(deviceHostname.c_str());
 
   /* Sensors */
   multiplexor.addAnalogSensor(&noise_primary);
