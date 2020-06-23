@@ -107,7 +107,7 @@ void setup() {
 
   /* Sensors */
   multiplexor.addAnalogSensor(&noise_primary);
-  multiplexor.addAnalogSensor(&noise_secondary);
+  // multiplexor.addAnalogSensor(&noise_secondary);
 
   /* Leds */
   ledRing.setup();
