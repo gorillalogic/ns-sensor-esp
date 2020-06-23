@@ -9,18 +9,16 @@
 #include <FS.h>
 #include <Arduino.h>
 #include <ArduinoLog.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266mDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <ESP8266_Utils_OTA.h>
+#include <EasyOTA.h>
 #include <vector>
 #include "types.h"
 #include "config.h"
 #include "logger.h"
-#include "wifi.h"
-#include "mdns.h"
-#include "mqtt.h"
+#include "ns_wifi.h"
+#include "ns_mdns.h"
+#include "ns_mqtt.h"
 #include "sampling.h"
 #include "led_ring.h"
 #include "animations.h"
@@ -28,6 +26,15 @@
 #include "analog_sensor.h"
 #include "digital_sensor.h"
 #include "analog_multiplexor.h"
+
+WiFiClient wifiClient;
+PubSubClient pubSubClient(wifiClient);
+
+IPAddress server_ip;
+String mac_address;
+
+String deviceName;
+String deviceHostname;
 
 LedRing ledRing(
   config::leds::LEDS_TOTAL,
@@ -40,17 +47,15 @@ Animations animations(
   config::leds::animations::THRESHOLD_HIGH
 );
 
-Wifi wifi = Wifi(
+NS_WiFi wifi = NS_WiFi(
   config::wifi::NETWORKS
 );
 
-Mdns mDNS = Mdns();
+NS_mDNS mDNS = NS_mDNS();
 
-Mqtt mqtt(
-  config::mqtt::DEFAULT_CONFIG,
-  config::mqtt::DEFAULT_CREDENTIALS,
-  config::mqtt::channels::NOISE,
-  WiFi.macAddress()
+NS_MQTT mqtt = NS_MQTT(
+    wifiClient,
+    pubSubClient
 );
 
 AnalogSensor noise_primary(
@@ -70,21 +75,50 @@ AnalogSensor noise_secondary(
 AnalogMultiplexor multiplexor;
 
 void setup() {
+  /* Logs */
   Serial.begin(config::serial::BAUD_RATE);
   Log.begin(LOG_LEVEL, &Serial, true);
-  ledRing.setup();
+
+  /* WiFi */
   wifi.connect();
+  mac_address = WiFi.macAddress();
+  mqtt.setMacAddress(mac_address);
+  Log.notice("MAC Address: %s" CR, mac_address.c_str());
+
+  /* device name and hostname */
+  Utils::deviceName(mac_address, deviceName);
+  Log.notice("Device Name: %s" CR, deviceName.c_str());
+  mDNS.setMDNSName(deviceName);
+  mqtt.setClientId(deviceName);
+  Utils::deviceHostname(deviceName, deviceHostname);
+  Log.notice("Device Hostname: %s" CR, deviceHostname.c_str());
+
+  /* mDNS */
   mDNS.assign();
+  do{
+    mDNS.queryCollectorHost(server_ip);
+  }while( server_ip[0] != 192 );
+  mqtt.setServerIP(server_ip);
+  Log.notice("Found Collector IP at %s" CR, server_ip.toString().c_str());
+
+  /* OTA */
   initOTA();
-  ArduinoOTA.setHostname(config::mdns::HOSTNAME.domain);
-  mqtt.connect();
+  ArduinoOTA.setHostname(deviceHostname.c_str());
+
+  /* Sensors */
   multiplexor.addAnalogSensor(&noise_primary);
-  multiplexor.addAnalogSensor(&noise_secondary);
+  // multiplexor.addAnalogSensor(&noise_secondary);
+
+  /* Leds */
+  ledRing.setup();
+  Log.notice("LED RING: started." CR);
 }
 
 void loop() {
   ArduinoOTA.handle();
   mDNS.update();
+  mqtt.connect();
+  mqtt.loop();
 
   AnalogSensor* sensor = multiplexor.rotate();
   uint16_t noiseValue = sensor->nextCycle();

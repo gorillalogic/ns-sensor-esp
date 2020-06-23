@@ -28,7 +28,8 @@ void Sensor::disable(){
   }
 }
 
-Sensor::Sensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt, const uint8_t controlPin = config::pins::NO_CONTROL) :
+Sensor::Sensor(const char * const id, const uint8_t inputPin, NS_MQTT *mqtt,
+    const uint8_t controlPin = config::pins::NO_CONTROL) :
     id(id), sampling(id, config::sampling::AVERAGE_COUNT), mqtt(mqtt), inputPin(inputPin), controlPin(controlPin){};
 
 Sensor::~Sensor(){

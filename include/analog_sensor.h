@@ -7,5 +7,5 @@ class AnalogSensor : public Sensor{
     int read();
 
   public:
-    AnalogSensor(const char * const id, const uint8_t inputPin, Mqtt *mqtt, const uint8_t controlPin);
+    AnalogSensor(const char * const id, const uint8_t inputPin, NS_MQTT *mqtt, const uint8_t controlPin);
 };

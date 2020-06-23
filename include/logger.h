@@ -29,7 +29,7 @@ namespace logger {
 
   namespace mqtt {
     //notice
-    const char * const connecting = "MQTT: Connecting..." CR;
+    const char * const connecting = "MQTT: Connecting to %s %d %d" CR;
     const char * const retrying = "MQTT: Retrying connection in 5 seconds..." CR;
     const char * const connected = "MQTT: Connected!" CR;
 
@@ -38,7 +38,7 @@ namespace logger {
     const char * const failedSendingLimitTries = "Mqtt: Failed %d times. Restarting connection" CR;
 
     //verbose
-    const char * const payloadSent = "Mqtt: Sent %s %d %d %d %s" CR;
+    const char * const payloadSent = "MQTT: Sent: `%s`" CR;
   }
 
   namespace sampling {
