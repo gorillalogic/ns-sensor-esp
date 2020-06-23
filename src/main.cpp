@@ -51,8 +51,6 @@ NS_WiFi wifi = NS_WiFi(
 NS_mDNS mDNS = NS_mDNS();
 
 NS_MQTT mqtt = NS_MQTT(
-    config::mqtt::DEFAULT_CREDENTIALS,
-    config::mqtt::channels::NOISE,
     wifiClient,
     pubSubClient
 );
@@ -88,7 +86,6 @@ void setup() {
   mDNS.assign();
   do{
     mDNS.queryCollectorHost(server_ip);
-    delay(2000);
   }while( server_ip[0] != 192 );
   mqtt.setServerIP(server_ip);
   Log.notice("Found Collector IP at %s" CR, server_ip.toString().c_str());
@@ -103,6 +100,7 @@ void setup() {
 
   /* Leds */
   ledRing.setup();
+  Log.notice("LED RING: started." CR);
 }
 
 void loop() {

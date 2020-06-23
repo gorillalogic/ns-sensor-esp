@@ -26,11 +26,12 @@ class NS_MQTT{
     const char * feed_channel;
     const char * client_id;
     IPAddress server_ip;
+    uint16_t server_port;
     String mac_address;
     char * message;
 
   public:
-    explicit NS_MQTT(MqttCredentials credentials, const char *channel, WiFiClient &wifiClient, PubSubClient &client);
+    explicit NS_MQTT(WiFiClient &wifiClient, PubSubClient &client);
     ~NS_MQTT();
 
     void publish(SensorPayload payload);

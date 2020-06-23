@@ -10,10 +10,7 @@ void NS_MQTT::buildMsg(SensorPayload payload, char * buf){
 }
 
 void NS_MQTT::publish(SensorPayload payload){
-  Log.notice("MQTT: Will publish ..." CR);
   connect();
-  Log.notice("MQTT: Will publish indeed ..." CR);
-
   memset(message, 0, MSG_BUF_SIZE);
   buildMsg(payload, message);
   Log.notice("MQTT: Payload: %s" CR, message);
@@ -34,11 +31,10 @@ void NS_MQTT::connect(){
     return;
   }
 
-  Log.notice(logger::mqtt::connecting);
   do{
-    Log.notice("MQTT: STATE: %d" CR, client.state());
+    int wifiState = this->wifiClient.connect(this->server_ip, this->server_port);
     client.connect(client_id, username, password);
-    delay(2000);
+    Log.notice("MQTT: STATE: %d" CR, client.state());
   } while(!client.connected());
   Log.notice(logger::mqtt::connected);
 }
@@ -53,17 +49,18 @@ void NS_MQTT::loop(){
 
 void NS_MQTT::setServerIP(IPAddress &ip){
   this->server_ip = ip;
+  this->client.setServer(config::mqtt::DEFAULT_CONFIG.hostname.name, server_port);
 }
 
 void NS_MQTT::setMacAddress(String &mac_address){
   this->mac_address = mac_address;
 }
 
-NS_MQTT::NS_MQTT(MqttCredentials credentials, const char *channel, WiFiClient &wifiClient, PubSubClient &client):
+NS_MQTT::NS_MQTT(WiFiClient &wifiClient, PubSubClient &client):
     wifiClient(wifiClient), client(client){
-  username = credentials.username;
-  password = credentials.password;
-  wifiClient.connect(server_ip, config::mqtt::DEFAULT_CONFIG.port);
+  username = config::mqtt::DEFAULT_CREDENTIALS.username;
+  password = config::mqtt::DEFAULT_CREDENTIALS.password;
+  server_port = config::mqtt::DEFAULT_CONFIG.port;
   client_id = config::mdns::HOSTNAME.name;
   message = (char *) malloc(MSG_BUF_SIZE);
 }

@@ -29,7 +29,7 @@ namespace logger {
 
   namespace mqtt {
     //notice
-    const char * const connecting = "MQTT: Connecting..." CR;
+    const char * const connecting = "MQTT: Connecting to %s %d %d" CR;
     const char * const retrying = "MQTT: Retrying connection in 5 seconds..." CR;
     const char * const connected = "MQTT: Connected!" CR;
 
