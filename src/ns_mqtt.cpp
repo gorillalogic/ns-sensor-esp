@@ -4,43 +4,42 @@
 #define CONNECTED 0  // connect will return 0 for connected
 #define LIMIT_FAILURES 10
 
+void NS_MQTT::buildMsg(SensorPayload payload, char * buf){
+  sprintf(buf, "%s %d %d %d %s", payload.signalName, payload.avg, payload.max,
+    payload.min, mac_address.c_str());
+}
+
 void NS_MQTT::publish(SensorPayload payload){
-  char event[100];
-  sprintf(event, "%s %d %d %d %s", payload.signalName, payload.avg, payload.max, payload.min, macAddress.c_str());
-  if (!feed->publish(event)){
+  Log.notice("MQTT: Will publish ..." CR);
+  connect();
+  Log.notice("MQTT: Will publish indeed ..." CR);
+
+  memset(message, 0, MSG_BUF_SIZE);
+  buildMsg(payload, message);
+  Log.notice("MQTT: Payload: %s" CR, message);
+
+  if (!client.publish(config::mqtt::channels::NOISE, message, true)){
     Log.error(logger::mqtt::failedSending);
-    if (mqttFailures >= LIMIT_FAILURES){
-      Log.error(logger::mqtt::failedSendingLimitTries, mqttFailures);
-      mqttFailures = 0;
-      mqttClient->disconnect();
-      connect();
-      return;
-    }
-    mqttFailures += 1;
   }else{
-    Log.notice(logger::mqtt::payloadSent, payload.signalName, payload.avg, payload.max, payload.min, macAddress.c_str());
+    Log.notice(logger::mqtt::payloadSent, message);
   }
 }
 
 bool NS_MQTT::isConnected(){
-  return mqttClient->connected();
+  return client.connected();
 }
 
 void NS_MQTT::connect(){
-  if (isConnected()) {
+  if (this->isConnected()) {
     return;
   }
 
-  int8_t ret;
-  uint8_t retries = 3;
   Log.notice(logger::mqtt::connecting);
-  while ((ret = mqttClient->connect()) != CONNECTED) {
-    Log.error(mqttClient->connectErrorString(ret));
-    Log.notice(logger::mqtt::retrying);
-    if (!--retries){
-      break;
-    }
-  }
+  do{
+    Log.notice("MQTT: STATE: %d" CR, client.state());
+    client.connect(client_id, username, password);
+    delay(2000);
+  } while(!client.connected());
   Log.notice(logger::mqtt::connected);
 }
 
@@ -48,23 +47,25 @@ void NS_MQTT::disconnect(){
 
 }
 
-NS_MQTT::NS_MQTT(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress) :
-    macAddress(macAddress){
-  Log.notice("MQTT using %s" CR, config.hostname.domain);
-  wifiClient = new WiFiClient();
-  mqttClient = new Adafruit_MQTT_Client(
-    wifiClient,
-    config.hostname.domain,
-    config.port,
-    credentials.username,
-    credentials.password
-  );
-  feed = new Adafruit_MQTT_Publish(mqttClient, channel);
-  mqttFailures = 0;
+void NS_MQTT::loop(){
+  client.loop();
 }
 
-NS_MQTT::~NS_MQTT(){
-  delete wifiClient;
-  delete mqttClient;
-  delete feed;
+void NS_MQTT::setServerIP(IPAddress &ip){
+  this->server_ip = ip;
 }
+
+void NS_MQTT::setMacAddress(String &mac_address){
+  this->mac_address = mac_address;
+}
+
+NS_MQTT::NS_MQTT(MqttCredentials credentials, const char *channel, WiFiClient &wifiClient, PubSubClient &client):
+    wifiClient(wifiClient), client(client){
+  username = credentials.username;
+  password = credentials.password;
+  wifiClient.connect(server_ip, config::mqtt::DEFAULT_CONFIG.port);
+  client_id = config::mdns::HOSTNAME.name;
+  message = (char *) malloc(MSG_BUF_SIZE);
+}
+
+NS_MQTT::~NS_MQTT(){}

@@ -5,10 +5,6 @@ bool NS_WiFi::isConnected(){
   return false;
 }
 
-std::string NS_WiFi::currentIpAddress(){
-  return ipAddress;
-}
-
 void NS_WiFi::connect(){
   Log.notice(logger::wifi::connecting);
   WiFi.mode(WIFI_STA);

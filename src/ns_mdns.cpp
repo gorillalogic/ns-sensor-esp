@@ -1,9 +1,11 @@
 #include "ns_mdns.h"
 #include "config.h"
 #include "logger.h"
+#include <IPAddress.h>
 
 #if defined(ESP8266)
 #include <ESP8266mDNS.h>
+#include <ESP8266WiFi.h>
 #endif
 
 #if defined(ESP32)
@@ -12,15 +14,17 @@
 #include <ESPmDNS.h>
 #endif
 
-const char * NS_mDNS::queryCollectorHost(){
+void NS_mDNS::queryCollectorHost(IPAddress &result){
 #if defined(ESP8266)
-  return config::mdns::COLLECTOR.domain;
+  query = config::mdns::COLLECTOR.domain;
+  WiFi.hostByName(query, result);
+  Log.notice("mDNS Query: (%s) Found: (%s)" CR, query, result.toString().c_str());
 #endif
 #if defined(ESP32)
-  const char *query = config::mdns::COLLECTOR.name;
-  const char *result = MDNS.queryHost(query).toString().c_str();
-  Log.notice("mDNS Query: (%s) Found: (%s)" CR, query, result);
-  return result;
+  query = config::mdns::COLLECTOR.name;
+  IPAddress host = MDNS.queryHost(query);
+  result.fromString(host.toString());
+  Log.notice("mDNS Query: (%s) Found: (%s)" CR, query, result.toString().c_str());
 #endif
 }
 

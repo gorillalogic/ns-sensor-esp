@@ -38,7 +38,7 @@ namespace logger {
     const char * const failedSendingLimitTries = "Mqtt: Failed %d times. Restarting connection" CR;
 
     //verbose
-    const char * const payloadSent = "Mqtt: Sent %s %d %d %d %s" CR;
+    const char * const payloadSent = "MQTT: Sent: `%s`" CR;
   }
 
   namespace sampling {

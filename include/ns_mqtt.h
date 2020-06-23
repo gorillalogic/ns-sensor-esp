@@ -8,26 +8,39 @@
 #include <WiFi.h>
 #endif
 
-#include "Adafruit_MQTT.h"
-#include "Adafruit_MQTT_Client.h"
+#include <PubSubClient.h>
 
 #include "types.h"
 #include "config.h"
 
+#define MSG_BUF_SIZE 200
+
 class NS_MQTT{
   private:
-    WiFiClient *wifiClient;
-    Adafruit_MQTT_Client *mqttClient;
-    Adafruit_MQTT_Publish *feed;
+    WiFiClient &wifiClient;
+    PubSubClient &client;
     uint8_t mqttFailures;
-    String macAddress;
+    MqttConfig config;
+    const char * username;
+    const char * password;
+    const char * feed_channel;
+    const char * client_id;
+    IPAddress server_ip;
+    String mac_address;
+    char * message;
 
   public:
-    explicit NS_MQTT(MqttConfig config, MqttCredentials credentials, const char *channel, String macAddress);
+    explicit NS_MQTT(MqttCredentials credentials, const char *channel, WiFiClient &wifiClient, PubSubClient &client);
     ~NS_MQTT();
 
     void publish(SensorPayload payload);
     bool isConnected();
     void connect();
+    void loop();
     void disconnect();
+    void setServerIP(IPAddress &ip);
+    void setMacAddress(String &mac_address);
+
+  private:
+    void buildMsg(SensorPayload payload, char * buf);
 };
